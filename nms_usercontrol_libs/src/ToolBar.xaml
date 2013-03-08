@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="nms_usercontrol_libs.src.ToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="291" d:DesignWidth="499">
+    <Grid Height="60">
+        <Border Margin="0" BorderThickness="1" BorderBrush="LightGray">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="White" Offset="0"/>
+                    <GradientStop Color="#FFE6E6E6" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+        </Border>
+        <StackPanel Orientation="Horizontal">
+            <Button Width="48" Height="48" Margin="5,0">
+                <Image Source="/nms_usercontrol_libs;component/images/play_48.png"/>
+            </Button>
+            <Button Width="48" Height="48" Margin="5,0">
+                <Image Source="/nms_usercontrol_libs;component/images/refresh_48.png"/>
+            </Button>
+            <Button Width="48" Height="48" Margin="5,0">
+                <Image Source="/nms_usercontrol_libs;component/images/earth_48.png"/>
+            </Button>
+            <Button Width="48" Height="48" Margin="5,0">
+                <Image Source="/nms_usercontrol_libs;component/images/network_48.png"/>
+            </Button>
+            <Button Width="48" Height="48" Margin="5,0">
+                <Image Source="/nms_usercontrol_libs;component/images/monitor_48.png"/>
+            </Button>            
+            <Button x:Name="BtnExit" Width="48" Height="48" Margin="5,0" Click="BtnExit_Click">
+                <Image Source="/nms_usercontrol_libs;component/images/exit_48.png"/>
+            </Button>
+
+        </StackPanel>
+    </Grid>
+</UserControl>

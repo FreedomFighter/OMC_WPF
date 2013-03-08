@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="nms_usercontrol_libs.src.SiteTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--搜索栏-->
+        <Grid Grid.Row="0">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFE5F6FF" Offset="0"/>
+                    <GradientStop Color="#FFBDE1F9" Offset="1"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+            <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"/>
+            <TextBox Height="20" Margin="5,0,38,0"/>
+            <Button Height="24" Width="28" Margin="0,0,5,0" HorizontalAlignment="Right">
+                <Button.Content>
+                    <Image Source="/nms_usercontrol_libs;component/images/search_24.png" />
+                </Button.Content>
+            </Button>
+        </Grid>
+        <!--树形栏-->
+        <ScrollViewer Grid.Row="1" Margin="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
+            <TreeView x:Name="SiteList" BorderThickness="0">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
+                        <!--DataType="{x:Type local:PropertyNodeItem}"-->
+                        <StackPanel Orientation="Horizontal">
+                            <Image VerticalAlignment="Center" Source="{Binding Icon}" Width="16" Height="16" Margin="0,0,2,2"></Image>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}"></TextBlock>
+                            <Image VerticalAlignment="Center" Source="{Binding EditIcon}" Margin="2,0,0,0"></Image>
+                            <StackPanel.ToolTip>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="200" ></TextBlock>
+                            </StackPanel.ToolTip>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

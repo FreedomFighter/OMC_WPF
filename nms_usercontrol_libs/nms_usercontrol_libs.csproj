@@ -1,0 +1,188 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{84D78686-0309-4D2C-A36C-6383FEAACF4C}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>nms_usercontrol_libs</RootNamespace>
+    <AssemblyName>nms_usercontrol_libs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="src\CurSiteInfo.xaml.cs">
+      <DependentUpon>CurSiteInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\OperationLogView.xaml.cs">
+      <DependentUpon>OperationLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\RepeaterParaTabs.xaml.cs">
+      <DependentUpon>RepeaterParaTabs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\SiteTreeView.xaml.cs">
+      <DependentUpon>SiteTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\ToolBar.xaml.cs">
+      <DependentUpon>ToolBar.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="src\CurSiteInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\OperationLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\RepeaterParaTabs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\SiteTreeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\ToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\add_32.png" />
+    <Resource Include="images\alarm_24.png" />
+    <Resource Include="images\book_24.png" />
+    <Resource Include="images\clear_32.png" />
+    <Resource Include="images\clock_24.png" />
+    <Resource Include="images\com_port_32.png" />
+    <Resource Include="images\earth_48.png" />
+    <Resource Include="images\Floppy_24.png" />
+    <Resource Include="images\lock_24.png" />
+    <Resource Include="images\monitor_24.png" />
+    <Resource Include="images\pencil_24.png" />
+    <Resource Include="images\play_32.png" />
+    <Resource Include="images\port_24.png" />
+    <Resource Include="images\query_24.png" />
+    <Resource Include="images\save_32.png" />
+    <Resource Include="images\search_48.png" />
+    <Resource Include="images\stop_32.png" />
+    <Resource Include="images\stop_32_1.png" />
+    <Resource Include="images\tag_24.png" />
+    <Resource Include="images\top_arrow_24.png" />
+    <Resource Include="images\users_32.png" />
+    <Resource Include="images\user_24.png" />
+    <Resource Include="images\user_edit_32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\search_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\computer_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\info_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\browser_48.png" />
+    <Resource Include="images\calendar_48.png" />
+    <Resource Include="images\control_48.png" />
+    <Resource Include="images\home_48.png" />
+    <Resource Include="images\refresh_48.png" />
+    <Resource Include="images\tool_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\alert_24_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\browser_24.png" />
+    <Resource Include="images\console_48.png" />
+    <Resource Include="images\earth_32.png" />
+    <Resource Include="images\edit_24.png" />
+    <Resource Include="images\edit_48.png" />
+    <Resource Include="images\refresh_24.png" />
+    <Resource Include="images\refresh_32.png" />
+    <Resource Include="images\setting_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\control_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\play_48.png" />
+    <Resource Include="images\stop_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\monitor_48.png" />
+    <Resource Include="images\network_48.png" />
+    <Resource Include="images\setting_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\exit_48.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

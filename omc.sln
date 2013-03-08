@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "omc", "omc\omc.csproj", "{9F8CAE7F-8856-49D4-AFE3-A58048551B86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nms_usercontrol_libs", "nms_usercontrol_libs\nms_usercontrol_libs.csproj", "{84D78686-0309-4D2C-A36C-6383FEAACF4C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "nms_customcontrol_libs", "nms_customcontrol_libs\nms_customcontrol_libs.csproj", "{E1A163F5-B13E-4995-8B48-CD40050517FF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9F8CAE7F-8856-49D4-AFE3-A58048551B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8CAE7F-8856-49D4-AFE3-A58048551B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8CAE7F-8856-49D4-AFE3-A58048551B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8CAE7F-8856-49D4-AFE3-A58048551B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84D78686-0309-4D2C-A36C-6383FEAACF4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84D78686-0309-4D2C-A36C-6383FEAACF4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84D78686-0309-4D2C-A36C-6383FEAACF4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84D78686-0309-4D2C-A36C-6383FEAACF4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1A163F5-B13E-4995-8B48-CD40050517FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1A163F5-B13E-4995-8B48-CD40050517FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1A163F5-B13E-4995-8B48-CD40050517FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1A163F5-B13E-4995-8B48-CD40050517FF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

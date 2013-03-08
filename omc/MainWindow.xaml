@@ -1,0 +1,32 @@
+﻿<Window x:Name="MainWindows" x:Class="omc.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="NMS Login" Height="400" Width="600" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" Icon="images/earth_48.ico">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FFEEEEEE" Offset="1"/>
+                <GradientStop Color="White"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Button x:Name="BtnLogin" Content="Login" HorizontalAlignment="Left" Margin="375,259,0,0" VerticalAlignment="Top" Width="143" Height="42" Click="BtnLogin_Click"/>
+        <TextBlock HorizontalAlignment="Left" Margin="326,158,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="86"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="417,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="132" Text="Admin"/>
+        <TextBlock HorizontalAlignment="Left" Margin="326,195,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="86"/>
+        <TextBlock HorizontalAlignment="Left" Margin="364,62,0,0" TextWrapping="Wrap" Text="User Login" VerticalAlignment="Top" FontSize="30"/>
+        <PasswordBox HorizontalAlignment="Left" Margin="417,195,0,0" VerticalAlignment="Top" Width="132"/>
+        <Border Width="260" Height="236" Margin="21,62,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0,0,1,0">
+            <Border.BorderBrush>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF02142A" Offset="0.467"/>
+                    <GradientStop Color="#FFF1F1F1" Offset="0.996"/>
+                    <GradientStop Color="#FFFCFCFC"/>
+                </LinearGradientBrush>
+            </Border.BorderBrush>
+            <Image Margin="30" Source="images/nmsLogo.png" />
+        </Border>
+
+
+
+    </Grid>
+</Window>

@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="nms_usercontrol_libs.src.BotStatusBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="36" d:DesignWidth="800">
+    <Grid>
+        <Border BorderBrush="Gray" BorderThickness="1" Margin="0">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Gainsboro" Offset="1"/>
+                    <GradientStop Color="White"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
+        <Grid Margin="2">            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="240" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" BorderBrush="LightGray"  BorderThickness="1" Margin="2" Background="#FFFBFBFB"/>
+            <Border Grid.Column="1" BorderBrush="LightGray" BorderThickness="1" Margin="2" Background="#FFFBFBFB"/>
+            <Border Grid.Column="2" BorderBrush="LightGray" BorderThickness="1" Margin="2" Background="#FFFBFBFB"/>
+            <Border Grid.Column="3" BorderBrush="LightGray" BorderThickness="1" Margin="2" Background="#FFFBFBFB"/>
+            <Border Grid.Column="4" BorderBrush="LightGray" BorderThickness="1" Margin="2" Background="#FFFBFBFB"/>
+
+            <!--当前用户-->
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBlock Text="Operator:" Margin="7"/>
+                <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/user_admin_1_24.png" />
+                <TextBlock x:Name="CurrentUser" Text="Administrator" Margin="7" Foreground="Blue" TextDecorations="Underline"/>
+            </StackPanel>
+
+            <!--端口信息-->
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Text="Port:" Margin="7"/>
+                <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/control_24.png" />
+                <TextBlock x:Name="CurrentPort" Text="COM1" Margin="7" Foreground="Blue" TextDecorations="Underline"/>
+            </StackPanel>
+
+            <!--日期信息-->
+            <StackPanel Grid.Column="2" Orientation="Horizontal">
+                <TextBlock Text="Today:" Margin="7"/>
+                <TextBlock x:Name="CurrentDate" Text="2013-03-09" Margin="7"/>
+            </StackPanel>
+
+            <!--告警信息-->
+            <StackPanel Grid.Column="4" Orientation="Horizontal">
+                <TextBlock Text="Alarm Count:" Margin="7"/>
+                <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/lamp_red_24.png" />
+                <TextBlock x:Name="RedAlarmCount" Text="8120" Margin="7" TextDecorations="Underline" Foreground="Blue"/>
+                <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/lamp_yellow_24.png" Margin="10,0,0,0"/>
+                <TextBlock x:Name="YellowAlarmCount" Text="1010" Margin="7" TextDecorations="Underline" Foreground="Blue"/>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+    
+</UserControl>

@@ -60,6 +60,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="src\BotStatusBar.xaml.cs">
+      <DependentUpon>BotStatusBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\CurSiteInfo.xaml.cs">
       <DependentUpon>CurSiteInfo.xaml</DependentUpon>
     </Compile>
@@ -86,6 +89,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="src\BotStatusBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\CurSiteInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -176,6 +183,30 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\exit_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\user_admin_1_24.png" />
+    <Resource Include="images\user_admin_1_64.png" />
+    <Resource Include="images\user_admin_24.png" />
+    <Resource Include="images\user_admin_64.png" />
+    <Resource Include="images\user_comm_24.png" />
+    <Resource Include="images\user_comm_64.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\lamp_red_24.png" />
+    <Resource Include="images\lamp_yellow_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\flag_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\wireless_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\home_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\user_admin_48.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

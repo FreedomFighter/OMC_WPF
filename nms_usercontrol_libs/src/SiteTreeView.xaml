@@ -7,20 +7,22 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="32" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <!--搜索栏-->
         <Grid Grid.Row="0">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFE5F6FF" Offset="0"/>
-                    <GradientStop Color="#FFBDE1F9" Offset="1"/>
+                    <GradientStop Color="White"/>
+                    <GradientStop Color="#FFECECEC" Offset="1"/>
+                    <GradientStop Color="#FFECECEC" Offset="0.5"/>
+                    <GradientStop Color="#FFC9C9C9" Offset="0.5"/>
                 </LinearGradientBrush>
             </Grid.Background>
-            <Border BorderBrush="LightGray" BorderThickness="0,0,0,1"/>
-            <TextBox Height="20" Margin="5,0,38,0"/>
-            <Button Height="24" Width="28" Margin="0,0,5,0" HorizontalAlignment="Right">
+            <Border BorderBrush="Gray" BorderThickness="0,0,0,1"/>
+            <TextBox Height="20" Margin="10,5,50,5"/>
+            <Button Height="24" Width="28" Margin="0,0,10,0" HorizontalAlignment="Right">
                 <Button.Content>
                     <Image Source="/nms_usercontrol_libs;component/images/search_24.png" />
                 </Button.Content>
@@ -28,7 +30,7 @@
         </Grid>
         <!--树形栏-->
         <ScrollViewer Grid.Row="1" Margin="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-            <TreeView x:Name="SiteList" BorderThickness="0">
+            <TreeView x:Name="SiteList" BorderThickness="0" Background="#FFFEFEFE">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Path=Children}">
                         <!--DataType="{x:Type local:PropertyNodeItem}"-->

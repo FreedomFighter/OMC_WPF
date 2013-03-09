@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="600">
-    <Grid>
+    <Grid Margin="-1,2,0,-1">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="36"/>
@@ -13,19 +13,19 @@
         <!--参数标签区-->
         <TabControl>
             <!--直放站基本参数-->
-            <TabItem>
+            <TabItem Margin="0,0,0,-1">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/nms_usercontrol_libs;component/images/info_24.png" Width="24" Height="24" Stretch="None"/>
+                        <Image Source="/nms_usercontrol_libs;component/images/home_24.png" Width="24" Height="24" Stretch="None"/>
                         <TextBlock Text="Repeater Info" Margin="5" />
                     </StackPanel>
                 </TabItem.Header>
-                <ScrollViewer>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <DataGrid x:Name="RepeaterInfoDataGrid" AutoGenerateColumns="False" CanUserAddRows="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="No." Width="40"/>
                             <DataGridTextColumn Header="Select" Width="50"/>
-                            <DataGridTextColumn Header="Parameter Name" Width="200"/>
+                            <DataGridTextColumn Header="Parameter Name" Width="300"/>
                             <DataGridTextColumn Header="Local Value" Width="100"/>
                             <DataGridTextColumn Header="Remote Vaule" Width="100"/>
                             <DataGridTextColumn Header="Update Time" Width="100" />
@@ -85,7 +85,7 @@
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/nms_usercontrol_libs;component/images/setting_24.png" Width="24" Height="24" Stretch="None"/>
+                        <Image Source="/nms_usercontrol_libs;component/images/wireless_24.png" Width="24" Height="24" Stretch="None"/>
                         <TextBlock Text="RF Para." Margin="5" />
                     </StackPanel>
                 </TabItem.Header>
@@ -108,7 +108,7 @@
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/nms_usercontrol_libs;component/images/alert_24_1.png" Width="24" Height="24" Stretch="None"/>
+                        <Image Source="/nms_usercontrol_libs;component/images/flag_24.png" Width="24" Height="24" Stretch="None"/>
                         <TextBlock Text="Alarm Level" Margin="5" />
                     </StackPanel>
                 </TabItem.Header>
@@ -127,7 +127,14 @@
         </TabControl>
         
         <!--操作按钮区-->
-        <Border BorderBrush="LightGray" BorderThickness="1" Grid.Row="1" />
+        <Border BorderBrush="Gray" BorderThickness="1" Grid.Row="1" Margin="0,-1" >
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFC9C9C9" Offset="1"/>
+                    <GradientStop Color="White"/>
+                </LinearGradientBrush>
+            </Border.Background>
+        </Border>
         <Canvas Grid.Row="1" Margin="4">
             <CheckBox Content="Select All" Canvas.Top="5" Canvas.Left="10"/>
             <Button Canvas.Left="90" Width="80" Height="28">

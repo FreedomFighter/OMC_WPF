@@ -4,16 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="160" d:DesignWidth="300">
 
         <ScrollViewer Margin="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
-        <Grid>
+        <Grid Background="WhiteSmoke">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <StackPanel Grid.Column="0" Margin="5">
+            <Grid Grid.Row="0" Grid.ColumnSpan="2">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FFCBCBCB" Offset="1"/>
+                        <GradientStop Color="White"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+                <!--标题-->
+                <TextBlock Text="Operating Site" Height="20" Margin="10,5,0,3" Width="100" HorizontalAlignment="Left"/>
+                <!--菜单-->
+                <Menu Width="40" HorizontalAlignment="Right" Margin="0,0,10,0">
+                    <Menu.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FFCBCBCB" Offset="1"/>
+                            <GradientStop Color="White"/>
+                        </LinearGradientBrush>
+                    </Menu.Background>
+                    <MenuItem x:Name="CurSiteMoreOperation" Width="38" Margin="1">
+                        <MenuItem.Header>
+                            <Image Source="/nms_usercontrol_libs;component/images/setting_24.png" Width="24" Height="24" />
+                        </MenuItem.Header>
+                        <MenuItem Header="Site Properties" Width="200" Margin="2"/>
+                        <MenuItem Header="Get/Set Parameters" Width="200" Margin="2"/>
+                        <MenuItem Header="Alarm History" Width="200" Margin="2"/>
+                    </MenuItem>                    
+                </Menu>
+            </Grid>
+            
+            <StackPanel Grid.Column="0" Grid.Row="1" Margin="5">
                 <TextBlock Text="Repeater No." Margin="2"/>
                 <TextBlock Text="Device No." Margin="2"/>
                 <TextBlock Text="Equipment Type" Margin="2"/>
@@ -22,7 +56,7 @@
                 <TextBlock Text="Protocol Type" Margin="2"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Margin="5" >
+            <StackPanel Grid.Column="1" Grid.Row="1" Margin="5" >
                 <TextBlock Text="0122012120 FF" Margin="2" Foreground="#FF0046FF"/>
                 <TextBlock Text="Shanghai-001" Margin="2" Foreground="#FF0046FF"/>
                 <TextBlock Text="Channel Selective Repeater" Margin="2" Foreground="#FF0046FF"/>

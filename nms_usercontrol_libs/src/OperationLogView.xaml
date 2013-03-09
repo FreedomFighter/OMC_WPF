@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--操作按钮工具栏-->
-        <Border Grid.Row="0" BorderBrush="LightGray" BorderThickness="1">
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="1" Margin="-1,0,-1,-1">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FFDEDEDE" Offset="1"/>
@@ -21,8 +21,8 @@
         </Border>
         <Grid Grid.Row="0">
             <Canvas Margin="2">
-                <TextBox Text="Keywords..." Width="120" Height="22" Canvas.Top="4" Canvas.Left="10" />
-                <Button Width="80" Height="26" Canvas.Left="135" Canvas.Top="2">
+                <TextBox Text="Keywords..." Width="200" Height="24" Canvas.Top="3" Canvas.Left="10" />
+                <Button Width="80" Height="28" Canvas.Left="215" Canvas.Top="1">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/nms_usercontrol_libs;component/images/search_24.png" Width="24" Height="24"/>
@@ -32,7 +32,7 @@
                 </Button>
 
                 <CheckBox Canvas.Right="100" Canvas.Top="7" Content="Select All" />
-                <Button Width="80" Height="28" Canvas.Right="10" Canvas.Top="2">
+                <Button Width="80" Height="28" Canvas.Right="10" Canvas.Top="1">
                     <Button.Content>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/nms_usercontrol_libs;component/images/clear_32.png" Width="22" Height="24"/>
@@ -45,9 +45,15 @@
         </Grid>
         
         <!--日志列表-->
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="-1">
             <DataGrid>
-
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="No." Width="50"/>
+                    <DataGridTextColumn Header="Select" Width="50"/>
+                    <DataGridTextColumn Header="MessageType" Width="100"/>
+                    <DataGridTextColumn Header="Content" Width="*"/>
+                    <DataGridTextColumn Header="Time" Width="100"/>
+                </DataGrid.Columns>
             </DataGrid>
         </ScrollViewer>
     </Grid>

@@ -6,7 +6,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="291" d:DesignWidth="499">
     <Grid Height="60">
-        <Border Margin="0" BorderThickness="1" BorderBrush="LightGray">
+        <Border Margin="0" BorderThickness="1" BorderBrush="Gray">
             <Border.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="White" Offset="0"/>
@@ -30,7 +30,10 @@
             </Button>
             <Button Width="48" Height="48" Margin="5,0">
                 <Image Source="/nms_usercontrol_libs;component/images/monitor_48.png"/>
-            </Button>            
+            </Button>
+            <Button Width="48" Height="48" Margin="5,0">
+                <Image Source="/nms_usercontrol_libs;component/images/user_admin_48.png"/>
+            </Button>
             <Button x:Name="BtnExit" Width="48" Height="48" Margin="5,0" Click="BtnExit_Click">
                 <Image Source="/nms_usercontrol_libs;component/images/exit_48.png"/>
             </Button>

@@ -1,4 +1,5 @@
-﻿using omc.src;
+﻿using nms_usercontrol_libs.src;
+using omc.src;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +25,43 @@ namespace omc
         public MainWindow()
         {
             InitializeComponent();
+            UserLoginView.ButtonExitClickEvent += new ButtonClickEventHandler(ButtonExitEventHandler);
+            UserLoginView.ButtonLoginClickEvent += new ButtonClickEventHandler(ButtonLoginEventHandler);
         }
 
-        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+        /**************************************************
+         * 登录应用程序处理函数
+         * ***********************************************/
+        private void ButtonLoginEventHandler(object sender, EventArgs e)
         {
             Main win = new Main();
             win.Show();
-
             this.Close();
         }
+
+        /**************************************************
+         * 退出应用程序处理函数
+         * ***********************************************/
+        private void ButtonExitEventHandler(object sender, EventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void UserLoginView_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);  
+            // 获取鼠标相对标题栏位置  
+            Point position = e.GetPosition(this);
+
+            // 如果鼠标位置在窗体内，允许拖动  
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                if (position.X >= 0 && position.X < this.ActualWidth && position.Y >= 0 && position.Y < this.ActualHeight)
+                {
+                    this.DragMove();
+                }
+            }  
+        }
+
     }
 }

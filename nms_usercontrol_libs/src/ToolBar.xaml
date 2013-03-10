@@ -17,7 +17,10 @@
         </Border>
         <StackPanel Orientation="Horizontal">
             <Button Width="48" Height="48" Margin="5,0">
-                <Image Source="/nms_usercontrol_libs;component/images/play_48.png"/>
+                <Image Source="/nms_usercontrol_libs;component/images/home_48.png"/>
+            </Button>
+            <Button Width="48" Height="48" Margin="5,0">
+                <Image Source="/nms_usercontrol_libs;component/images/play_48.png" Width="36" Height="36"/>
             </Button>
             <Button Width="48" Height="48" Margin="5,0">
                 <Image Source="/nms_usercontrol_libs;component/images/refresh_48.png"/>

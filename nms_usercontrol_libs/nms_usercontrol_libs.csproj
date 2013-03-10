@@ -78,6 +78,9 @@
     <Compile Include="src\ToolBar.xaml.cs">
       <DependentUpon>ToolBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\UserLogin.xaml.cs">
+      <DependentUpon>UserLogin.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -110,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\ToolBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\UserLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -207,6 +214,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\user_admin_48.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\nms_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\button_close_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\button_close_1_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\button_minimize_16.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

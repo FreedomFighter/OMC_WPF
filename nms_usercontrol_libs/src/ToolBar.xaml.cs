@@ -22,7 +22,7 @@ namespace nms_usercontrol_libs.src
     /// </summary>
     public partial class ToolBar : UserControl
     {
-        public event ButtonClickEventHandler ButtonClickEvent = null;
+        public event ButtonClickEventHandler ButtonExitClickEvent = null;
        
         public ToolBar()
         {
@@ -33,9 +33,9 @@ namespace nms_usercontrol_libs.src
         {
             if (MessageBox.Show("Are you sure to exit application?", "Exit Applicatoin", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                if (null != ButtonClickEvent)
+                if (null != ButtonExitClickEvent)
                 {
-                    ButtonClickEvent(BtnExit, new EventArgs());
+                    ButtonExitClickEvent(BtnExit, new EventArgs());
                 }
             }
         }

@@ -64,7 +64,6 @@
                 <TextBlock Text="Shanghai,Qingpu" Margin="2" Foreground="#FF0046FF"/>
                 <TextBlock Text="CMCC-2G" Margin="2" Foreground="#FF0046FF"/>
             </StackPanel>
-            
         </Grid>
 
     </ScrollViewer>

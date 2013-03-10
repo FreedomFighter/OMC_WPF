@@ -24,10 +24,10 @@ namespace omc.src
         {
             InitializeComponent();
 
-            ToolBar.ButtonClickEvent += new ButtonClickEventHandler(ButtonDeleteEventHandler);
+            ToolBar.ButtonExitClickEvent += new ButtonClickEventHandler(ButtonExitEventHandler);
         }
 
-        private void ButtonDeleteEventHandler(object sender, EventArgs e)
+        private void ButtonExitEventHandler(object sender, EventArgs e)
         {
             Application.Current.Shutdown();
         }

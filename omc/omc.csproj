@@ -141,16 +141,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\alert_24.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\alarm_history_24.png" />
-    <Resource Include="images\log_24.png" />
-    <Resource Include="images\refresh_24.png" />
-    <Resource Include="images\search_24.png" />
-    <Resource Include="images\tongji_24.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="data\" />
   </ItemGroup>
   <ItemGroup>
@@ -164,15 +154,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\nmsLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\earth_24.ico" />
-    <Resource Include="images\earth_32.ico" />
     <Resource Include="images\earth_48.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\clear_32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

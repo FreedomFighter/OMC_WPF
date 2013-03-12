@@ -12,6 +12,11 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using nms_comm_lib;
+using nms_database_lib;
+using Microsoft.Win32;
+using nms_excel_lib;
+using System.Data;
 
 namespace omc.src
 {
@@ -20,24 +25,31 @@ namespace omc.src
     /// </summary>
     public partial class Main : Window
     {
+        CommunicateBase communicateBase = null;
+
         public Main()
         {
             InitializeComponent();
 
-            ToolBar.ButtonExitClickEvent += new ButtonClickEventHandler(ButtonExitEventHandler);
+            ToolBar.ButtonExitClickEvent += new UserLoginClickEventHandler(ButtonExitEventHandler);
         }
 
-        private void ButtonExitEventHandler(object sender, EventArgs e)
+        /**************************************************
+         * 退出应用程序处理函数
+         * ***********************************************/
+        private void ButtonExitEventHandler(object sender, UserEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
         private void TopMenuExitClick(object sender, RoutedEventArgs e)
         {
+            
             if (MessageBox.Show("Are you sure to exit application?", "Exit Applicatoin", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 Application.Current.Shutdown();
             }
+                        
         }
     }
 }

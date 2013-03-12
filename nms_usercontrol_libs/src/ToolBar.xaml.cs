@@ -15,14 +15,15 @@ using System.Windows.Shapes;
 
 namespace nms_usercontrol_libs.src
 {
-    public delegate void ButtonClickEventHandler(object sender, EventArgs e);
+    //public delegate void ButtonClickEventHandler(object sender, EventArgs e);
+    
 
     /// <summary>
     /// ToolBar.xaml 的交互逻辑
     /// </summary>
     public partial class ToolBar : UserControl
     {
-        public event ButtonClickEventHandler ButtonExitClickEvent = null;
+        public event UserLoginClickEventHandler ButtonExitClickEvent = null;
        
         public ToolBar()
         {
@@ -35,7 +36,7 @@ namespace nms_usercontrol_libs.src
             {
                 if (null != ButtonExitClickEvent)
                 {
-                    ButtonExitClickEvent(BtnExit, new EventArgs());
+                    ButtonExitClickEvent(BtnExit, new UserEventArgs("",""));
                 }
             }
         }

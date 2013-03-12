@@ -19,12 +19,12 @@ namespace nms_usercontrol_libs.src
     /// UserLogin.xaml 的交互逻辑
     /// </summary>
     /// 
-    
+    public delegate void UserLoginClickEventHandler(object sender, UserEventArgs e);
 
     public partial class UserLogin : UserControl
     {
-        public ButtonClickEventHandler ButtonLoginClickEvent = null;
-        public ButtonClickEventHandler ButtonExitClickEvent = null;
+        public UserLoginClickEventHandler ButtonLoginClickEvent = null;
+        public UserLoginClickEventHandler ButtonExitClickEvent = null;
 
         public UserLogin()
         {
@@ -38,7 +38,7 @@ namespace nms_usercontrol_libs.src
         {
             if (null != ButtonLoginClickEvent)
             {
-                ButtonLoginClickEvent(BtnLogin, new EventArgs());
+                ButtonLoginClickEvent(BtnLogin, new UserEventArgs(UsernameTextBox.Text.Trim(), PasswordTextBox.Password));
             }
         }
 
@@ -49,8 +49,35 @@ namespace nms_usercontrol_libs.src
         {
             if (null != ButtonExitClickEvent)
             {
-                ButtonExitClickEvent(BtnExit, new EventArgs());
+                ButtonExitClickEvent(BtnExit, new UserEventArgs(UsernameTextBox.Text.Trim(), PasswordTextBox.Password));
             }
+        }
+    }
+
+    //===========================================================================================
+    /// <summary>
+    /// 定义登录窗口回调函数的参数事件类
+    /// </summary>
+    public class UserEventArgs : EventArgs
+    {
+        private string username;
+        public string Username
+        {
+            get { return username; }
+            private set { username = value; }
+        }
+
+        private string password;
+        public string Password
+        {
+            get { return password; }
+            private set { password = value; }
+        }
+
+        public UserEventArgs(string name, string passwd)
+        {
+            Username = name;
+            Password = passwd;
         }
     }
 }

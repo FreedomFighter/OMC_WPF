@@ -41,9 +41,9 @@
   <ItemGroup>
     <Compile Include="CommuEventArgs.cs" />
     <Compile Include="CommunicateBase.cs" />
-    <Compile Include="ModemServer.cs" />
+    <Compile Include="SmsMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerialServer.cs" />
+    <Compile Include="SerialMode.cs" />
     <Compile Include="TcpServer.cs" />
     <Compile Include="UdpServer.cs" />
   </ItemGroup>

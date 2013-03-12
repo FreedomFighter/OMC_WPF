@@ -51,7 +51,7 @@
             </Menu>
         </Grid>
         <!--顶部Toolbar-->
-        <src:ToolBar x:Name="ToolBar" Grid.Row="1" />
+        <src:ToolBar x:Name="ToolBar" Grid.Row="1"/>
 
         <!--中部内容区-->
         <Grid Grid.Row="2" Background="White">

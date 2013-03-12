@@ -14,6 +14,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using nms_database_lib;
+using nms_utility_lib;
 
 namespace omc
 {
@@ -25,24 +27,40 @@ namespace omc
         public MainWindow()
         {
             InitializeComponent();
-            UserLoginView.ButtonExitClickEvent += new ButtonClickEventHandler(ButtonExitEventHandler);
-            UserLoginView.ButtonLoginClickEvent += new ButtonClickEventHandler(ButtonLoginEventHandler);
+            UserLoginView.ButtonExitClickEvent += new UserLoginClickEventHandler(ButtonExitEventHandler);
+            UserLoginView.ButtonLoginClickEvent += new UserLoginClickEventHandler(ButtonLoginEventHandler);
         }
 
         /**************************************************
          * 登录应用程序处理函数
          * ***********************************************/
-        private void ButtonLoginEventHandler(object sender, EventArgs e)
+        private void ButtonLoginEventHandler(object sender, UserEventArgs e)
         {
-            Main win = new Main();
-            win.Show();
+            User user  = Database.GetUserByName(e.Username);
+            if (null == user)
+            {
+                MessageBox.Show("User name is not exist. please try again","Login Fail",MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            // 替换
+            string _password = Utility.Encrypt(e.Password);
+
+            if (e.Password != user.Password)
+            {
+                MessageBox.Show("Password error, please try again", "Login Fail", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            Main mainFrom = new Main();
+            mainFrom.Show();
             this.Close();
         }
 
         /**************************************************
          * 退出应用程序处理函数
          * ***********************************************/
-        private void ButtonExitEventHandler(object sender, EventArgs e)
+        private void ButtonExitEventHandler(object sender, UserEventArgs e)
         {
             Application.Current.Shutdown();
         }

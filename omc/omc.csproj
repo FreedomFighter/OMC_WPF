@@ -144,13 +144,37 @@
     <Folder Include="data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\nms_cmcc_lib\nms_cmcc_lib.csproj">
+      <Project>{5a0873e2-0032-40b6-9630-76f6f3019c07}</Project>
+      <Name>nms_cmcc_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nms_comm_lib\nms_comm_lib.csproj">
+      <Project>{ce255788-3cc8-4dcc-bb1e-12b7fccd1742}</Project>
+      <Name>nms_comm_lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nms_customcontrol_libs\nms_customcontrol_libs.csproj">
       <Project>{e1a163f5-b13e-4995-8b48-cd40050517ff}</Project>
       <Name>nms_customcontrol_libs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\nms_database_lib\nms_database_lib.csproj">
+      <Project>{75c1ae98-67db-416d-bcc8-b682d9d1b8e6}</Project>
+      <Name>nms_database_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nms_datatype_lib\nms_datatype_lib.csproj">
+      <Project>{27e78a2a-b782-4729-b1e0-16ac688045b0}</Project>
+      <Name>nms_datatype_lib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nms_excel_lib\nms_excel_lib.csproj">
+      <Project>{31a1cb2d-dac7-4e30-a54d-de7172c6166d}</Project>
+      <Name>nms_excel_lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nms_usercontrol_libs\nms_usercontrol_libs.csproj">
       <Project>{84D78686-0309-4D2C-A36C-6383FEAACF4C}</Project>
       <Name>nms_usercontrol_libs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\nms_utility_lib\nms_utility_lib.csproj">
+      <Project>{1671b169-be4c-4e94-a852-3fd38fff337b}</Project>
+      <Name>nms_utility_lib</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

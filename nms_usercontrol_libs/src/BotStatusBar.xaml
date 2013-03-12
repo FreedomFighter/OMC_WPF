@@ -33,14 +33,14 @@
             <StackPanel Grid.Column="0" Orientation="Horizontal">
                 <TextBlock Text="Operator:" Margin="7"/>
                 <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/user_admin_1_24.png" />
-                <TextBlock x:Name="CurrentUser" Text="Administrator" Margin="7" Foreground="Blue" TextDecorations="Underline"/>
+                <TextBlock x:Name="CurrentUser" Text="Administrator" Margin="7" Foreground="Blue" TextDecorations="Underline" Cursor="Hand"/>
             </StackPanel>
 
             <!--端口信息-->
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <TextBlock Text="Port:" Margin="7"/>
                 <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/control_24.png" />
-                <TextBlock x:Name="CurrentPort" Text="COM1" Margin="7" Foreground="Blue" TextDecorations="Underline"/>
+                <TextBlock x:Name="CurrentPort" Text="COM1" Margin="7" Foreground="Blue" TextDecorations="Underline" Cursor="Hand"/>
             </StackPanel>
 
             <!--日期信息-->
@@ -53,9 +53,9 @@
             <StackPanel Grid.Column="4" Orientation="Horizontal">
                 <TextBlock Text="Alarm Count:" Margin="7"/>
                 <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/lamp_red_24.png" />
-                <TextBlock x:Name="RedAlarmCount" Text="8120" Margin="7" TextDecorations="Underline" Foreground="Blue"/>
+                <TextBlock x:Name="RedAlarmCount" Text="8120" Margin="7" TextDecorations="Underline" Foreground="Blue" Cursor="Hand"/>
                 <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/lamp_yellow_24.png" Margin="10,0,0,0"/>
-                <TextBlock x:Name="YellowAlarmCount" Text="1010" Margin="7" TextDecorations="Underline" Foreground="Blue"/>
+                <TextBlock x:Name="YellowAlarmCount" Text="1010" Margin="7" TextDecorations="Underline" Foreground="Blue" Cursor="Hand"/>
             </StackPanel>
 
         </Grid>

@@ -16,28 +16,25 @@
 
         </Border>
         <StackPanel Orientation="Horizontal">
-            <Button Width="48" Height="48" Margin="5,0">
+            <Button Width="48" Height="48" Margin="5,0" ToolTip="Home">
                 <Image Source="/nms_usercontrol_libs;component/images/home_48.png"/>
             </Button>
-            <Button Width="48" Height="48" Margin="5,0">
+            <Button Width="48" Height="48" Margin="5,0" ToolTip="Run/Stop Server">
                 <Image Source="/nms_usercontrol_libs;component/images/play_48.png" Width="36" Height="36"/>
-            </Button>
-            <Button Width="48" Height="48" Margin="5,0">
-                <Image Source="/nms_usercontrol_libs;component/images/refresh_48.png"/>
-            </Button>
-            <Button Width="48" Height="48" Margin="5,0">
+            </Button>            
+            <Button Width="48" Height="48" Margin="5,0" ToolTip="Search Repeater">
                 <Image Source="/nms_usercontrol_libs;component/images/earth_48.png"/>
             </Button>
-            <Button Width="48" Height="48" Margin="5,0">
+            <Button Width="48" Height="48" Margin="5,0" ToolTip="Port Setting">
                 <Image Source="/nms_usercontrol_libs;component/images/network_48.png"/>
             </Button>
-            <Button Width="48" Height="48" Margin="5,0">
+            <Button Width="48" Height="48" Margin="5,0" ToolTip="Alarm History">
                 <Image Source="/nms_usercontrol_libs;component/images/monitor_48.png"/>
             </Button>
-            <Button Width="48" Height="48" Margin="5,0">
+            <Button Width="48" Height="48" Margin="5,0" ToolTip="User Management">
                 <Image Source="/nms_usercontrol_libs;component/images/user_admin_48.png"/>
             </Button>
-            <Button x:Name="BtnExit" Width="48" Height="48" Margin="5,0" Click="BtnExit_Click">
+            <Button x:Name="BtnExit" Width="48" Height="48" Margin="5,0" ToolTip="Exit Application" Click="BtnExit_Click">
                 <Image Source="/nms_usercontrol_libs;component/images/exit_48.png"/>
             </Button>
 

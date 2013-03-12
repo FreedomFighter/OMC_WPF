@@ -13,20 +13,23 @@ namespace nms_comm_lib
 
         List<UdpServer> udpServerList = new List<UdpServer>();
         List<TcpServer> tcpServerList = new List<TcpServer>();
-        List<ModemServer> modemServerList = new List<ModemServer>();
-        List<SerialServer> serialServerList = new List<SerialServer>();
+        List<SmsMode> smsServerList = new List<SmsMode>();
+        List<SerialMode> serialServerList = new List<SerialMode>();
 
         public CommunicateBase()
         {
             udpServerList.Clear();
             tcpServerList.Clear();
-            modemServerList.Clear();
+            smsServerList.Clear();
             serialServerList.Clear();
         }
 
         private void Stop()
         {
-
+             DisponseUdpServer();
+             DisponseTcpServer();
+             DisponseSerialServer();
+             DisponseModemServer();
         }
 
         /// <summary>
@@ -41,7 +44,10 @@ namespace nms_comm_lib
             UdpServer udpServer = new UdpServer(port);
             udpServer.UdpDataReceiveComplated += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
             bResult = udpServer.Start();
-            udpServerList.Add(udpServer);
+            if (bResult == true)
+            {
+                udpServerList.Add(udpServer);
+            }
 
             return bResult;
         }
@@ -62,7 +68,10 @@ namespace nms_comm_lib
             TcpServer tcpServer = new TcpServer(port);            
             tcpServer.TcpDataReceiveCompleted += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
             bResult = tcpServer.Start();
-            tcpServerList.Add(tcpServer);
+            if (bResult == true)
+            {
+                tcpServerList.Add(tcpServer);
+            }
 
             return bResult;
         }
@@ -71,10 +80,13 @@ namespace nms_comm_lib
         {
             bool bResult = false;
 
-            SerialServer serialServer = new SerialServer(name, baudrate);
+            SerialMode serialServer = new SerialMode(name, baudrate);
             serialServer.SerialDataReceiveComplated += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
             bResult = serialServer.Start();
-            serialServerList.Add(serialServer);
+            if (bResult == true)
+            {
+                serialServerList.Add(serialServer);
+            }
 
             return bResult;
         }
@@ -83,10 +95,13 @@ namespace nms_comm_lib
         {
             bool bResult = false;
 
-            ModemServer modemServer = new ModemServer(name, baudrate);
-            modemServer.ModemDataReceiveHandler += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
-            bResult = modemServer.Start();
-            modemServerList.Add(modemServer);
+            SmsMode smsMode = new SmsMode(name, baudrate);
+            smsMode.ModemDataRecevieCompleted += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
+            bResult = smsMode.Start(3);
+            if (bResult == true)
+            {
+                smsServerList.Add(smsMode);
+            }
 
             return bResult;
         }
@@ -122,7 +137,7 @@ namespace nms_comm_lib
             if (serialServerList.Count <= 0)
                 return;
 
-            foreach (SerialServer element in serialServerList)
+            foreach (SerialMode element in serialServerList)
             {
                 element.Stop();
                 element.SerialDataReceiveComplated -= new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
@@ -132,19 +147,19 @@ namespace nms_comm_lib
 
         public void DisponseModemServer()
         {
-            if (modemServerList.Count <= 0)
+            if (smsServerList.Count <= 0)
                 return;
 
-            foreach (ModemServer element in modemServerList)
+            foreach (SmsMode element in smsServerList)
             {
                 element.Stop();
-                element.ModemDataReceiveHandler -= new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
+                element.ModemDataRecevieCompleted -= new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
             }
-            modemServerList.Clear();
+            smsServerList.Clear();
         }
 
         private void OnCommunDataReceiveComplated(object sender, CommuEventArgs e)
-        {
+        {            
             if (null != CommunDataReceiveComplated)
             {
                 CommunDataReceiveComplated(sender, e);
@@ -170,7 +185,7 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    SerialServer serialServer = (SerialServer)serialServerList[0];
+                    SerialMode serialServer = (SerialMode)serialServerList[0];
                     if (null == serialServer)
                     {
                         return false;
@@ -198,18 +213,18 @@ namespace nms_comm_lib
                     break;
 
                 case CommunicateMode.SMS:
-                    if (modemServerList.Count <= 0)
+                    if (smsServerList.Count <= 0)
                     {
                         return false;
                     }
                     //规定第一个modem为专门发送，其他为接收
-                    ModemServer modemServer = (ModemServer)modemServerList[0];
-                    if (null == modemServer)
+                    SmsMode smsMode = (SmsMode)smsServerList[0];
+                    if (null == smsMode)
                     {
                         return false;
                     }
 
-                    modemServer.Send(data, telphone);
+                    smsMode.SendToSMS(telphone, data, data.Length);
                     break;
 
                 case CommunicateMode.SNMP:
@@ -255,7 +270,7 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    SerialServer serialServer = (SerialServer)serialServerList[0];
+                    SerialMode serialServer = (SerialMode)serialServerList[0];
                     if (null == serialServer)
                     {
                         return false;
@@ -283,18 +298,18 @@ namespace nms_comm_lib
                     break;
 
                 case CommunicateMode.SMS:
-                    if (modemServerList.Count <= 0)
+                    if (smsServerList.Count <= 0)
                     {
                         return false;
                     }
                     //规定第一个modem为专门发送，其他为接收
-                    ModemServer modemServer = (ModemServer)modemServerList[0];
-                    if (null == modemServer)
+                    SmsMode smsMode = (SmsMode)smsServerList[0];
+                    if (null == smsMode)
                     {
                         return false;
                     }
 
-                    modemServer.Send(data, telphone);
+                    smsMode.SendToSMS(telphone, data);
                     break;
 
                 case CommunicateMode.SNMP:

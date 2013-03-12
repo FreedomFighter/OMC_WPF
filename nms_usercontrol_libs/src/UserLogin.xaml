@@ -33,10 +33,10 @@
         
         <!--用户登录信息-->
         <TextBlock HorizontalAlignment="Left" Margin="326,158,0,0" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Width="86"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="417,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="132" Text="Admin"/>
+        <TextBox HorizontalAlignment="Left" Height="23"  Name="UsernameTextBox" Margin="417,155,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="132" Text="Admin"/>
         <TextBlock HorizontalAlignment="Left" Margin="326,195,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Width="86"/>
         <TextBlock HorizontalAlignment="Left" Margin="364,62,0,0" TextWrapping="Wrap" Text="User Login" VerticalAlignment="Top" FontSize="30"/>
-        <PasswordBox HorizontalAlignment="Left" Margin="417,195,0,0" VerticalAlignment="Top" Width="132"/>
+        <PasswordBox HorizontalAlignment="Left" Margin="417,195,0,0" VerticalAlignment="Top" Width="132" Name="PasswordTextBox" Password="123456"/>
         
         <!--登录按钮-->
         <Button x:Name="BtnLogin" Content="Login" HorizontalAlignment="Left" Margin="375,259,0,0" VerticalAlignment="Top" Width="143" Height="42" Click="BtnLogin_Click"/>

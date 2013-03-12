@@ -72,6 +72,7 @@
     <Compile Include="src\RepeaterParaTabs.xaml.cs">
       <DependentUpon>RepeaterParaTabs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\SiteModel.cs" />
     <Compile Include="src\SiteTreeView.xaml.cs">
       <DependentUpon>SiteTreeView.xaml</DependentUpon>
     </Compile>

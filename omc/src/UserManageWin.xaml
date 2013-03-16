@@ -1,0 +1,11 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:src="clr-namespace:nms_usercontrol_libs.src;assembly=nms_usercontrol_libs" x:Class="omc.src.UserManageWin"
+        Title="User Management" Height="600" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+
+        <src:UserManage Margin="0"/>
+
+    </Grid>
+</Window>

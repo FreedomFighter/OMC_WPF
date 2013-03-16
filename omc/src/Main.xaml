@@ -84,7 +84,7 @@
                     <RowDefinition Height="170"/>
                 </Grid.RowDefinitions>
                 <!--主内容参数设置区-->
-                <src:RepeaterParaTabs Grid.Row="0" Margin="0,0,0,-1" />
+                <src:RepeaterParaTabs x:Name="RepeaterParaDataGrid" Grid.Row="0" Margin="0,0,0,-1" />
 
                 <!--底部日志信息栏-->
                 <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="0,1,0,0"/>

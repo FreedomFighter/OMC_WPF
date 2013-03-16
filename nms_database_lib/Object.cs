@@ -280,6 +280,16 @@ namespace nms_database_lib
         public string AlarmLevel { get; set; }
         public string SiteName { get; set; }
 
+        public Alarm(string siteid, string subid, string name, string time, string level, string sitename)
+        {
+            this.SiteId = siteid;
+            this.SubId = subid;
+            this.AlarmName = name;
+            this.AlarmTime = time;
+            this.AlarmLevel = level;
+            this.SiteName = sitename;
+        }
+
         public Alarm(int id, string siteid, string subid, string name, string time, string level, string sitename)
         {
             this.ID = id;

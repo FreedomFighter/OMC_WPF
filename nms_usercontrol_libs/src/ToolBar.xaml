@@ -25,13 +25,13 @@
             <Button Width="48" Height="48" Margin="5,0" ToolTip="Search Repeater">
                 <Image Source="/nms_usercontrol_libs;component/images/earth_48.png"/>
             </Button>
-            <Button Width="48" Height="48" Margin="5,0" ToolTip="Port Setting">
+            <Button x:Name="BtnPortSetting" Width="48" Height="48" Margin="5,0" ToolTip="Port Setting" Click="BtnPortSetting_Click">
                 <Image Source="/nms_usercontrol_libs;component/images/network_48.png"/>
             </Button>
             <Button Width="48" Height="48" Margin="5,0" ToolTip="Alarm History">
                 <Image Source="/nms_usercontrol_libs;component/images/monitor_48.png"/>
             </Button>
-            <Button Width="48" Height="48" Margin="5,0" ToolTip="User Management">
+            <Button x:Name="BtnUserManage" Width="48" Height="48" Margin="5,0" ToolTip="User Management" Click="BtnUserManage_Click">
                 <Image Source="/nms_usercontrol_libs;component/images/user_admin_48.png"/>
             </Button>
             <Button x:Name="BtnExit" Width="48" Height="48" Margin="5,0" ToolTip="Exit Application" Click="BtnExit_Click">

@@ -5,6 +5,7 @@ using System.Text;
 using System.Globalization;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Collections.ObjectModel;
 
 namespace nms_datatype_lib
 {
@@ -2052,6 +2053,31 @@ namespace nms_datatype_lib
             }
 
             return notes;
+        }
+    }
+
+    public class EnumObjectList : ObservableCollection<EnumObject>
+    {
+        public EnumObjectList()
+        {
+            CreateEnumObjectList();
+        }
+
+        private void CreateEnumObjectList()
+        {
+            Add(new EnumObject("YesNo", 0x00, "No"));
+            Add(new EnumObject("YesNo", 0x01, "Yes"));
+            Add(new EnumObject("CommunicationMode", 0x01, "Short Message"));
+            Add(new EnumObject("CommunicationMode", 0x02, "Mobile Data(CSD)"));
+            Add(new EnumObject("CommunicationMode", 0x03, "GPRS"));
+            Add(new EnumObject("CommunicationMode", 0x04, "CDMA"));
+            Add(new EnumObject("CommunicationMode", 0x05, "UDP"));
+            Add(new EnumObject("EnableDisable", 0x00, "Disable"));
+            Add(new EnumObject("EnableDisable", 0x01, "Enbale"));
+            Add(new EnumObject("AlarmNormal", 0x00, "Normal"));
+            Add(new EnumObject("AlarmNormal", 0x01, "Alarm"));
+            Add(new EnumObject("OnOff", 0x00, "Off"));
+            Add(new EnumObject("OnOff", 0x01, "On"));
         }
     }
 }

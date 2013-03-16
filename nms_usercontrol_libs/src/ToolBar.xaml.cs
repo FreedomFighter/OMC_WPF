@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 
 namespace nms_usercontrol_libs.src
 {
-    //public delegate void ButtonClickEventHandler(object sender, EventArgs e);
+    public delegate void ButtonClickEventHandler(object sender, EventArgs e);
     
 
     /// <summary>
@@ -24,7 +24,8 @@ namespace nms_usercontrol_libs.src
     public partial class ToolBar : UserControl
     {
         public event UserLoginClickEventHandler ButtonExitClickEvent = null;
-       
+        public event ButtonClickEventHandler BtnUserManageClickEvent = null;
+        public event ButtonClickEventHandler BtnPortSettingClickEvent = null;
         public ToolBar()
         {
             InitializeComponent();
@@ -38,6 +39,22 @@ namespace nms_usercontrol_libs.src
                 {
                     ButtonExitClickEvent(BtnExit, new UserEventArgs("",""));
                 }
+            }
+        }
+
+        private void BtnUserManage_Click(object sender, RoutedEventArgs e)
+        {
+            if (null != BtnUserManageClickEvent)
+            {
+                BtnUserManageClickEvent(BtnUserManage, new EventArgs());
+            }
+        }
+
+        private void BtnPortSetting_Click(object sender, RoutedEventArgs e)
+        {
+            if (null != BtnPortSettingClickEvent)
+            {
+                BtnPortSettingClickEvent(BtnPortSetting, new EventArgs());
             }
         }
     }

@@ -147,13 +147,6 @@ namespace nms_usercontrol_libs.src
             node3.Children.Add(node3sub2);
 
             itemList.Add(node3);
-            itemList.Add(node3);
-            itemList.Add(node3);
-            itemList.Add(node1);
-            itemList.Add(node1);
-            itemList.Add(node3);
-            itemList.Add(node2);
-            itemList.Add(node3);
 
             this.SiteListTreeView.ItemsSource = itemList;
         }

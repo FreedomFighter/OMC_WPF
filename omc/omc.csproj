@@ -76,8 +76,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\Business.cs" />
     <Compile Include="src\Main.xaml.cs">
       <DependentUpon>Main.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\PortSettingWin.xaml.cs">
+      <DependentUpon>PortSettingWin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\UserManageWin.xaml.cs">
+      <DependentUpon>UserManageWin.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -92,6 +99,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="src\Main.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\PortSettingWin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="src\UserManageWin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -179,6 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\earth_48.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\earth_24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

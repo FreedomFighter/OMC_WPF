@@ -91,11 +91,11 @@ namespace nms_comm_lib
             return bResult;
         }
 
-        public bool CreateModemServer(string name, int baudrate)
+        public bool CreateModemServer(string name, int baudrate, SmsTxRx txrx)
         {
             bool bResult = false;
 
-            SmsMode smsMode = new SmsMode(name, baudrate);
+            SmsMode smsMode = new SmsMode(name, baudrate, txrx);
             smsMode.ModemDataRecevieCompleted += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
             bResult = smsMode.Start(3);
             if (bResult == true)
@@ -175,9 +175,9 @@ namespace nms_comm_lib
         /// <param name="siteid"></param>
         /// <param name="subid"></param>
         /// <param name="mode"></param>
-        private bool SendPrivate(byte[] data, string telphone, IPEndPoint iep, uint siteid, byte subid, CommunicateMode mode)
+        private bool SendPrivate(byte[] data, CommuEventArgs e)
         {
-            switch (mode)
+            switch (e.Mode)
             {
                 case CommunicateMode.RS232:
                     if (serialServerList.Count <= 0)
@@ -185,13 +185,11 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    SerialMode serialServer = (SerialMode)serialServerList[0];
-                    if (null == serialServer)
+                    foreach (SerialMode element in serialServerList)
                     {
-                        return false;
+                        element.Send(data);
+                        break;
                     }
-
-                    serialServer.Send(data);
                     break;
 
                 case CommunicateMode.CSD:
@@ -203,13 +201,19 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    TcpServer tcpServer = (TcpServer)tcpServerList[0];
-                    if (null == tcpServer)
+                    foreach (TcpServer element in tcpServerList)
                     {
-                        return false;
+                        // 如果站点编号和设备编号无效则采用对象发送
+                        if (e.SiteID == 0x00000 && e.SubID == 0x00)
+                        {
+                            element.Send(e.GprsObject, data);
+                        }
+                        else
+                        {
+                            element.Send(e.SiteID, e.SubID, data);
+                        }
+                        break;
                     }
-
-                    tcpServer.Send(siteid, subid, data);
                     break;
 
                 case CommunicateMode.SMS:
@@ -217,14 +221,16 @@ namespace nms_comm_lib
                     {
                         return false;
                     }
-                    //规定第一个modem为专门发送，其他为接收
-                    SmsMode smsMode = (SmsMode)smsServerList[0];
-                    if (null == smsMode)
-                    {
-                        return false;
-                    }
 
-                    smsMode.SendToSMS(telphone, data, data.Length);
+                    foreach (SmsMode element in smsServerList)
+                    {
+                        if (element.TxRx == SmsTxRx.TX)
+                        {
+                            string strText = Encoding.ASCII.GetString(data);
+                            element.SendToSMS(e.PhoneText, strText);
+                            break;
+                        }
+                    }
                     break;
 
                 case CommunicateMode.SNMP:
@@ -238,13 +244,11 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    UdpServer udpServer = (UdpServer)udpServerList[0];
-                    if (null == udpServer)
+                    foreach (UdpServer element in udpServerList)
                     {
-                        return false;
+                        element.Send(data, e.EndPoint);
+                        break;
                     }
-
-                    udpServer.Send(data, iep);
                     break;
             }
 
@@ -260,9 +264,9 @@ namespace nms_comm_lib
         /// <param name="siteid"></param>
         /// <param name="subid"></param>
         /// <param name="mode"></param>
-        private bool SendPrivate(string data, string telphone, IPEndPoint iep, uint siteid, byte subid, CommunicateMode mode)
+        private bool SendPrivate(string data, CommuEventArgs e)
         {
-            switch (mode)
+            switch (e.Mode)
             {
                 case CommunicateMode.RS232:
                     if (serialServerList.Count <= 0)
@@ -270,13 +274,11 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    SerialMode serialServer = (SerialMode)serialServerList[0];
-                    if (null == serialServer)
+                    foreach (SerialMode element in serialServerList)
                     {
-                        return false;
+                        element.Send(data);
+                        break;
                     }
-
-                    serialServer.Send(data);
                     break;
 
                 case CommunicateMode.CSD:
@@ -288,13 +290,19 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    TcpServer tcpServer = (TcpServer)tcpServerList[0];
-                    if (null == tcpServer)
+                    foreach (TcpServer element in tcpServerList)
                     {
-                        return false;
+                        // 如果站点编号和设备编号无效则采用对象发送
+                        if (e.SiteID == 0x00000 && e.SubID == 0x00)
+                        {
+                            element.Send(e.GprsObject, data);
+                        }
+                        else
+                        {
+                            element.Send(e.SiteID, e.SubID, data);
+                        }
+                        break;
                     }
-
-                    tcpServer.Send(siteid, subid, data);
                     break;
 
                 case CommunicateMode.SMS:
@@ -302,14 +310,15 @@ namespace nms_comm_lib
                     {
                         return false;
                     }
-                    //规定第一个modem为专门发送，其他为接收
-                    SmsMode smsMode = (SmsMode)smsServerList[0];
-                    if (null == smsMode)
-                    {
-                        return false;
-                    }
 
-                    smsMode.SendToSMS(telphone, data);
+                    foreach (SmsMode element in smsServerList)
+                    {
+                        if (element.TxRx == SmsTxRx.TX)
+                        {
+                            element.SendToSMS(e.PhoneText, data);
+                            break;
+                        }
+                    }
                     break;
 
                 case CommunicateMode.SNMP:
@@ -323,13 +332,11 @@ namespace nms_comm_lib
                         return false;
                     }
 
-                    UdpServer udpServer = (UdpServer)udpServerList[0];
-                    if (null == udpServer)
+                    foreach (UdpServer element in udpServerList)
                     {
-                        return false;
+                        element.Send(data, e.EndPoint);
+                        break;
                     }
-
-                    udpServer.Send(data, iep);
                     break;
             }
 
@@ -341,39 +348,9 @@ namespace nms_comm_lib
         /// </summary>
         /// <param name="data"></param>
         /// <param name="mode"></param>
-        public bool Send(byte[] data)
+        public bool Send(byte[] data, CommuEventArgs e)
         {
-            return SendPrivate(data, null, null, 0, 0xFF, CommunicateMode.RS232);
-        }
-
-        /// <summary>
-        /// 此函数只能发送串口的数据，通信方式必须设置为UDP
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mode"></param>
-        public bool Send(byte[] data, IPEndPoint iep)
-        {
-            return SendPrivate(data, null, iep, 0, 0xFF, CommunicateMode.UDP);
-        }
-
-        /// <summary>
-        /// 此函数只能发送串口的数据，通信方式必须设置为MODEM
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mode"></param>
-        public bool Send(byte[] data, string telphone)
-        {
-            return SendPrivate(data, telphone, null, 0, 0xFF, CommunicateMode.SMS);
-        }
-
-        /// <summary>
-        /// 此函数只能发送串口的数据，通信方式必须设置为MODEM
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mode"></param>
-        public bool Send(byte[] data, uint siteid, byte subid)
-        {
-            return SendPrivate(data, null, null, siteid, subid, CommunicateMode.GPRS);
+            return SendPrivate(data, e);
         }
 
         /// <summary>
@@ -381,39 +358,9 @@ namespace nms_comm_lib
         /// </summary>
         /// <param name="data"></param>
         /// <param name="mode"></param>
-        public bool Send(string data)
+        public bool Send(string data, CommuEventArgs e)
         {
-            return SendPrivate(data, null, null, 0, 0xFF, CommunicateMode.RS232);
-        }
-
-        /// <summary>
-        /// 此函数只能发送串口的数据，通信方式必须设置为UDP
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mode"></param>
-        public bool Send(string data, IPEndPoint iep)
-        {
-            return SendPrivate(data, null, iep, 0, 0xFF, CommunicateMode.UDP);
-        }
-
-        /// <summary>
-        /// 此函数只能发送串口的数据，通信方式必须设置为MODEM
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mode"></param>
-        public bool Send(string data, string telphone)
-        {
-            return SendPrivate(data, telphone, null, 0, 0xFF, CommunicateMode.SMS);
-        }
-
-        /// <summary>
-        /// 此函数只能发送串口的数据，通信方式必须设置为MODEM
-        /// </summary>
-        /// <param name="data"></param>
-        /// <param name="mode"></param>
-        public bool Send(string data, uint siteid, byte subid)
-        {
-            return SendPrivate(data, null, null, siteid, subid, CommunicateMode.GPRS);
+            return SendPrivate(data, e);
         }
     }
 }

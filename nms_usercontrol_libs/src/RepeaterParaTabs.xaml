@@ -2,7 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dg="clr-namespace:Microsoft.Windows.Controls;assembly=WpfToolkit"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:collection="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:local="clr-namespace:nms_usercontrol_libs.src"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="600">
     <Grid Margin="-1,2,0,-1">
@@ -20,19 +24,7 @@
                         <TextBlock Text="Repeater Info" Margin="5" />
                     </StackPanel>
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <DataGrid x:Name="RepeaterInfoDataGrid" AutoGenerateColumns="False" CanUserAddRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="No." Width="40"/>
-                            <DataGridTextColumn Header="Select" Width="50"/>
-                            <DataGridTextColumn Header="Parameter Name" Width="300"/>
-                            <DataGridTextColumn Header="Local Value" Width="100"/>
-                            <DataGridTextColumn Header="Remote Vaule" Width="100"/>
-                            <DataGridTextColumn Header="Update Time" Width="100" />
-                            <DataGridTextColumn Header="" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>                    
-                </ScrollViewer>
+                <DataGrid x:Name="RepeaterInfoDataGrid" AutoGenerateColumns="True" Margin="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
             </TabItem>
 
             <!--网管参数-->
@@ -44,17 +36,8 @@
                     </StackPanel>
                 </TabItem.Header>
                 <ScrollViewer>
-                    <DataGrid x:Name="MonitorInfoDataGrid" AutoGenerateColumns="False" CanUserAddRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="No." Width="40"/>
-                            <DataGridTextColumn Header="Select" Width="50"/>
-                            <DataGridTextColumn Header="Parameter Name" Width="200"/>
-                            <DataGridTextColumn Header="Local Value" Width="100"/>
-                            <DataGridTextColumn Header="Remote Vaule" Width="100"/>
-                            <DataGridTextColumn Header="Update Time" Width="100" />
-                            <DataGridTextColumn Header="" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                    <DataGrid x:Name="MonitorInfoDataGrid" AutoGenerateColumns="True" Margin="0" />
+                        
                 </ScrollViewer>
             </TabItem>
 
@@ -66,62 +49,209 @@
                         <TextBlock Text="Alarm Info" Margin="5" />
                     </StackPanel>
                 </TabItem.Header>
-                <ScrollViewer>
-                    <DataGrid x:Name="AlarmInfoDataGrid" AutoGenerateColumns="False" CanUserAddRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="No." Width="40"/>
-                            <DataGridTextColumn Header="Select" Width="50"/>
-                            <DataGridTextColumn Header="Parameter Name" Width="200"/>
-                            <DataGridTextColumn Header="Local Value" Width="100"/>
-                            <DataGridTextColumn Header="Remote Vaule" Width="100"/>
-                            <DataGridTextColumn Header="Update Time" Width="100" />
-                            <DataGridTextColumn Header="" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                <ScrollViewer>                   
+                    <dg:DataGrid x:Name="AlarmInfoDataGrid"
+                     AutoGenerateColumns="False"
+                     SelectionUnit="CellOrRowHeader"
+                     IsSynchronizedWithCurrentItem="True" 
+                     HeadersVisibility="All"
+                     Background="Transparent"
+                     RowHeaderWidth="25"
+                     SelectionMode="Extended"
+                     RowBackground="White" 
+                     CanUserAddRows="False"
+                     CanUserSortColumns="False"
+                     AlternatingRowBackground="LightGray"   
+                     AlternationCount="2"
+                     FontSize="14" FontFamily="Bold" RenderTransformOrigin="0.54,0.556">
+                        <dg:DataGrid.Columns>
+                            <dg:DataGridCheckBoxColumn Width="16"
+                                           Header=""
+                                           Binding="{Binding Path=Select}">
+                            </dg:DataGridCheckBoxColumn>
+
+                            <dg:DataGridTextColumn Width="300"                                     
+                                           Header="Parameter Name"  IsReadOnly="True"                               
+                                           Binding="{Binding Path=Name}">
+                            </dg:DataGridTextColumn>
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Local Value"
+                                           Binding="{Binding Path=Value}"/>
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Remote Vaule"  IsReadOnly="True"
+                                           Binding="{Binding Path=Query}" />
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Update Time" IsReadOnly="True"
+                                           Binding="{Binding Path=Unit}">
+                            </dg:DataGridTextColumn>
+
+                            <dg:DataGridTextColumn Width="80" 
+                                           Header="Status"  IsReadOnly="True"
+                                           Binding="{Binding Path=Status}">
+                            </dg:DataGridTextColumn>
+                        </dg:DataGrid.Columns>
+                    </dg:DataGrid>
                 </ScrollViewer>
             </TabItem>
             
+            <!--Alarm Enable-->
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/nms_usercontrol_libs;component/images/select_24.png" Width="24" Height="24" Stretch="None"/>
+                        <TextBlock Text="Alarm Enable" Margin="5" />
+                    </StackPanel>
+                </TabItem.Header>
+                <ScrollViewer>                   
+                   <dg:DataGrid x:Name="AlarmEnableDataGrid"
+                     AutoGenerateColumns="False"
+                     SelectionUnit="CellOrRowHeader"
+                     IsSynchronizedWithCurrentItem="True" 
+                     HeadersVisibility="All"
+                     Background="Transparent"
+                     RowHeaderWidth="25"
+                     SelectionMode="Extended"
+                     RowBackground="White" 
+                     CanUserAddRows="False"
+                     CanUserSortColumns="False"
+                     AlternatingRowBackground="LightGray"   
+                     AlternationCount="2"
+                     FontSize="14" FontFamily="Bold" RenderTransformOrigin="0.54,0.556">
+                            <dg:DataGrid.Columns>
+                                <dg:DataGridCheckBoxColumn Width="16"
+                                           Header=""
+                                           Binding="{Binding Path=Select}">
+                                </dg:DataGridCheckBoxColumn>
+
+                                <dg:DataGridTextColumn Width="300"                                     
+                                           Header="Parameter Name"  IsReadOnly="True"                               
+                                           Binding="{Binding Path=Name}">
+                                </dg:DataGridTextColumn>
+
+                                <dg:DataGridTextColumn Width="120" 
+                                           Header="Local Value"
+                                           Binding="{Binding Path=Value}"/>
+
+                                <dg:DataGridTextColumn Width="120" 
+                                           Header="Remote Vaule"  IsReadOnly="True"
+                                           Binding="{Binding Path=Query}" />
+
+                                <dg:DataGridTextColumn Width="120" 
+                                           Header="Update Time" IsReadOnly="True"
+                                           Binding="{Binding Path=Unit}">
+                                </dg:DataGridTextColumn>
+
+                                <dg:DataGridTextColumn Width="80" 
+                                           Header="Status"  IsReadOnly="True"
+                                           Binding="{Binding Path=Status}">
+                                </dg:DataGridTextColumn>
+                            </dg:DataGrid.Columns>
+                        </dg:DataGrid>
+                </ScrollViewer>
+            </TabItem>
+
             <!--RF工作参数-->
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/nms_usercontrol_libs;component/images/wireless_24.png" Width="24" Height="24" Stretch="None"/>
+                        <Image Source="/nms_usercontrol_libs;component/images/setting_24.png" Width="24" Height="24" Stretch="None"/>
                         <TextBlock Text="RF Para." Margin="5" />
                     </StackPanel>
                 </TabItem.Header>
-                <ScrollViewer>
-                    <DataGrid x:Name="RFParaDataGrid" AutoGenerateColumns="False" CanUserAddRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="No." Width="40"/>
-                            <DataGridTextColumn Header="Select" Width="50"/>
-                            <DataGridTextColumn Header="Parameter Name" Width="200"/>
-                            <DataGridTextColumn Header="Local Value" Width="100"/>
-                            <DataGridTextColumn Header="Remote Vaule" Width="100"/>
-                            <DataGridTextColumn Header="Update Time" Width="100" />
-                            <DataGridTextColumn Header="" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                <ScrollViewer>                   
+                    <dg:DataGrid x:Name="RFParaDataGrid"
+                     AutoGenerateColumns="False"
+                     SelectionUnit="CellOrRowHeader"
+                     IsSynchronizedWithCurrentItem="True" 
+                     HeadersVisibility="All"
+                     Background="Transparent"
+                     RowHeaderWidth="25"
+                     SelectionMode="Extended"
+                     RowBackground="White" 
+                     CanUserAddRows="False"
+                     CanUserSortColumns="False"
+                     AlternatingRowBackground="LightGray"   
+                     AlternationCount="2"
+                     FontSize="14" FontFamily="Bold" RenderTransformOrigin="0.54,0.556">
+                        <dg:DataGrid.Columns>
+                            <dg:DataGridCheckBoxColumn Width="16"
+                                           Header=""
+                                           Binding="{Binding Path=Select}">
+                            </dg:DataGridCheckBoxColumn>
+
+                            <dg:DataGridTextColumn Width="300"                                     
+                                           Header="Parameter Name"  IsReadOnly="True"                               
+                                           Binding="{Binding Path=Name}">
+                            </dg:DataGridTextColumn>
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Local Value"
+                                           Binding="{Binding Path=Value}"/>
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Remote Vaule"  IsReadOnly="True"
+                                           Binding="{Binding Path=Query}" />
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Update Time" IsReadOnly="True"
+                                           Binding="{Binding Path=Unit}">
+                            </dg:DataGridTextColumn>
+
+                            <dg:DataGridTextColumn Width="80" 
+                                           Header="Status"  IsReadOnly="True"
+                                           Binding="{Binding Path=Status}">
+                            </dg:DataGridTextColumn>
+                        </dg:DataGrid.Columns>
+                    </dg:DataGrid>
                 </ScrollViewer>
             </TabItem>
             
-            <!--Alarm level-->
+            <!--RF Status-->
             <TabItem>
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/nms_usercontrol_libs;component/images/flag_24.png" Width="24" Height="24" Stretch="None"/>
-                        <TextBlock Text="Alarm Level" Margin="5" />
+                        <Image Source="/nms_usercontrol_libs;component/images/wireless_24.png" Width="24" Height="24" Stretch="None"/>
+                        <TextBlock Text="RF Status" Margin="5" />
                     </StackPanel>
                 </TabItem.Header>
-                <ScrollViewer>
-                    <DataGrid x:Name="AlarmLevelDataGrid" AutoGenerateColumns="False" CanUserAddRows="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="No." Width="40"/>
-                            <DataGridTextColumn Header="Select" Width="50"/>
-                            <DataGridTextColumn Header="Alarm Name" Width="200"/>
-                            <DataGridTextColumn Header="Level" Width="100"/>
-                            <DataGridTextColumn Header="" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
+                <ScrollViewer>                  
+                    <dg:DataGrid x:Name="RFStatusDataGrid"
+                     AutoGenerateColumns="False"
+                     SelectionUnit="CellOrRowHeader"
+                     IsSynchronizedWithCurrentItem="True" 
+                     HeadersVisibility="All"
+                     Background="Transparent"
+                     RowHeaderWidth="25"
+                     SelectionMode="Extended"
+                     RowBackground="White" 
+                     CanUserAddRows="False"
+                     CanUserSortColumns="False"
+                     AlternatingRowBackground="LightGray"   
+                     AlternationCount="2"
+                     FontSize="14" FontFamily="Bold" RenderTransformOrigin="0.54,0.556">
+                        <dg:DataGrid.Columns>
+                            <dg:DataGridCheckBoxColumn Width="16"
+                                           Header=""
+                                           Binding="{Binding Path=Select}">
+                            </dg:DataGridCheckBoxColumn>
+
+                            <dg:DataGridTextColumn Width="300"                                     
+                                           Header="Alarm Name"  IsReadOnly="True"                               
+                                           Binding="{Binding Path=Name}">
+                            </dg:DataGridTextColumn>
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Local Value"
+                                           Binding="{Binding Path=Value}"/>
+
+                            <dg:DataGridTextColumn Width="120" 
+                                           Header="Level"  IsReadOnly="True"
+                                           Binding="{Binding Path=Query}" />                           
+                        </dg:DataGrid.Columns>
+                    </dg:DataGrid>
                 </ScrollViewer>               
             </TabItem>
         </TabControl>
@@ -135,9 +265,9 @@
                 </LinearGradientBrush>
             </Border.Background>
         </Border>
-        <Canvas Grid.Row="1" Margin="4">
+        <Canvas Grid.Row="1" Margin="3">
             <CheckBox Content="Select All" Canvas.Top="5" Canvas.Left="10"/>
-            <Button Canvas.Left="90" Width="80" Height="28">
+            <Button x:Name="BtnGet" Canvas.Left="90" Width="80" Height="28" Click="BtnGet_Click">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/nms_usercontrol_libs;component/images/browser_24.png" Width="24" Height="24"/>

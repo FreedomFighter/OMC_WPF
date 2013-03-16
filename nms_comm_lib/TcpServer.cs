@@ -13,7 +13,7 @@ namespace nms_comm_lib
     /// <summary>
     /// Tcp客户端连接对象，每个连接自动生成对应的一个对象，对象通过站点ID和设备编号标识
     /// </summary>
-    class TcpObject
+    public class TcpObject
     {
         public TcpClient Client { get; private set; }
         public BinaryReader Br { get; private set; }
@@ -58,6 +58,11 @@ namespace nms_comm_lib
         {
             this.Subid = subid;
             this.SiteId = siteid;
+        }
+
+        public TcpObject Clone()
+        {
+            return new TcpObject(this.Client);
         }
 
         public void Close()
@@ -258,7 +263,7 @@ namespace nms_comm_lib
 
                         if (null != TcpDataReceiveCompleted)
                         {
-                            CommuEventArgs args = new CommuEventArgs(datas, CommunicateMode.GPRS);
+                            CommuEventArgs args = new CommuEventArgs(datas, obj);
                             TcpDataReceiveCompleted(obj, args);
                         }
                     }

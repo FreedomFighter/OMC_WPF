@@ -45,6 +45,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\OMC_WPF\nms_usercontrol_libs\bin\Debug\WPFToolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -66,13 +70,15 @@
     <Compile Include="src\CurSiteInfo.xaml.cs">
       <DependentUpon>CurSiteInfo.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\Customer.cs" />
+    <Compile Include="src\DataGridEventArgs.cs" />
+    <Compile Include="src\DataGridModel.cs" />
     <Compile Include="src\OperationLogView.xaml.cs">
       <DependentUpon>OperationLogView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\RepeaterParaTabs.xaml.cs">
       <DependentUpon>RepeaterParaTabs.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\SiteModel.cs" />
     <Compile Include="src\SiteTreeView.xaml.cs">
       <DependentUpon>SiteTreeView.xaml</DependentUpon>
     </Compile>
@@ -82,6 +88,10 @@
     <Compile Include="src\UserLogin.xaml.cs">
       <DependentUpon>UserLogin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\UserManage.xaml.cs">
+      <DependentUpon>UserManage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\UserModel.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -118,6 +128,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\UserLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\UserManage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -233,7 +247,6 @@
     <Resource Include="images\button_minimize_24.png" />
     <Resource Include="images\city_16.png" />
     <Resource Include="images\city_24.png" />
-    <Resource Include="images\wireless_16.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\edit_16.png" />
@@ -248,34 +261,18 @@
     <Resource Include="images\add_16.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\accept_24.png" />
-    <Resource Include="images\add_1_16.png" />
-    <Resource Include="images\add_1_24.png" />
-    <Resource Include="images\alarm_1_24.png" />
-    <Resource Include="images\chart_16.png" />
-    <Resource Include="images\chart_24.png" />
     <Resource Include="images\computer_1_24.png" />
-    <Resource Include="images\home_1_24.png" />
-    <Resource Include="images\refresh_1_16.png" />
-    <Resource Include="images\refresh_1_24.png" />
-    <Resource Include="images\rss_96.png" />
-    <Resource Include="images\save_16.png" />
-    <Resource Include="images\save_24.png" />
     <Resource Include="images\search_16.png" />
-    <Resource Include="images\search_1_16.png" />
-    <Resource Include="images\search_1_24.png" />
     <Resource Include="images\select_24.png" />
-    <Resource Include="images\setting_1_24.png" />
-    <Resource Include="images\warning_16.png" />
-    <Resource Include="images\warning_24.png" />
-    <Resource Include="images\wired_16.png" />
-    <Resource Include="images\wired_24.png" />
-    <Resource Include="images\wireless_1_16.png" />
-    <Resource Include="images\wireless_1_24.png" />
-    <Resource Include="images\wireless_1_96.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\computer_1_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\nms_datatype_lib\nms_datatype_lib.csproj">
+      <Project>{27e78a2a-b782-4729-b1e0-16ac688045b0}</Project>
+      <Name>nms_datatype_lib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

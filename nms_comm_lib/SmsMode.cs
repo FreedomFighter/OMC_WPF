@@ -61,6 +61,11 @@ namespace nms_comm_lib
         }
     }
 
+    public enum SmsTxRx
+    {
+        None = 0x00, TX, RX,
+    }
+
     class SmsMode
     {
         bool _isStart = false;
@@ -72,6 +77,13 @@ namespace nms_comm_lib
         Thread smsThread = null;
         List<byte[]> commReceived = new List<byte[]>();
         public event CommunDataReceiveHandler ModemDataRecevieCompleted = null;
+
+        private SmsTxRx txrx = SmsTxRx.TX;
+        public SmsTxRx TxRx
+        {
+            get { return txrx; }
+            set { txrx = value; }
+        }
 
         public string Name
         {
@@ -99,8 +111,9 @@ namespace nms_comm_lib
         /// </summary>
         /// <param name="name"></param>
         /// <param name="baudrate"></param>
-        public SmsMode(string name, int baudrate)
+        public SmsMode(string name, int baudrate, SmsTxRx txrx)
         {
+            TxRx = txrx;
             serialMode = new SerialMode(name, baudrate);
             serialMode.SerialDataReceiveComplated += new CommunDataReceiveHandler(DataReceiveFromHandle);
         }
@@ -256,7 +269,8 @@ namespace nms_comm_lib
                 //  将收到的数据传到上传
                 if (null != ModemDataRecevieCompleted)
                 {
-                    ModemDataRecevieCompleted(sender, e);
+                    CommuEventArgs args = new CommuEventArgs(e.Data, CommunicateMode.SMS);
+                    ModemDataRecevieCompleted(sender, args);
                 }
 
                 return;

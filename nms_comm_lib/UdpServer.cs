@@ -139,7 +139,7 @@ namespace nms_comm_lib
 
                         if (null != UdpDataReceiveComplated)
                         {
-                            CommuEventArgs args = new CommuEventArgs(data, CommunicateMode.UDP);
+                            CommuEventArgs args = new CommuEventArgs(data, endPoint);
                             UdpDataReceiveComplated(this, args);
                         }
                     }

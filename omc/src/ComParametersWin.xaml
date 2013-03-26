@@ -1,0 +1,44 @@
+﻿<Window x:Class="omc.src.ComParametersWin"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:nms_usercontrol_libs.src;assembly=nms_usercontrol_libs"
+        Title="Com Parameters" Height="350" Width="410">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="150"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <!--通用COM口选择-->
+        <ScrollViewer Grid.Row="0" Grid.Column="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <GroupBox Header=" COM " Margin="5">
+                <StackPanel Orientation="Vertical">
+                    <local:ComParameters />
+                    <local:ComParameters />
+                    <local:ComParameters />
+                    <local:ComParameters />
+                    <local:ComParameters />
+                    <local:ComParameters />
+                </StackPanel>
+            </GroupBox>
+        </ScrollViewer>
+
+        <!--网络通信口选择-->
+        <GroupBox Grid.Row="0" Grid.Column="1" Header=" LAN " Margin="5" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical" Margin="10">
+                <CheckBox Content="TCP" Margin="5"/>
+                <CheckBox Content="UDP" Margin="5"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!--操作按钮-->
+        <StackPanel Grid.Row="2" Margin="110,5" Orientation="Horizontal" HorizontalAlignment="Center" Grid.ColumnSpan="2">
+            <Button Style="{StaticResource ResourceKey=ButtonOKStyle}" Margin="5" />
+            <Button Style="{StaticResource ResourceKey=ButtonCancelStyle}" Margin="5" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -107,7 +107,7 @@ namespace CmccLib
             /// </summary>
             public ushort Moid
             {
-                get { return (ushort)((error << 12) + (moid << 0)); }
+                get { return moid; }
                 set
                 {
                     error = (byte)((value >> 12) & 0x000F);

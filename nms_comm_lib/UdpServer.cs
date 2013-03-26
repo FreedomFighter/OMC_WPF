@@ -109,9 +109,9 @@ namespace nms_comm_lib
 
             try
             {
-                ServerClient.Close();
-                ServerThread.Abort();
                 _isStart = false;
+                ServerClient.Close();
+                ServerThread.Abort();                
             }
             catch (Exception r)
             {

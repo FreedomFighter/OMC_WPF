@@ -24,17 +24,17 @@
             </Grid.Background>
             <Border BorderBrush="Gray" BorderThickness="0,0,0,1"/>
             <TextBox Height="20" Margin="10,6,140,6"/>
-            <Button x:Name="BtnSearch" Height="24" Width="28" Margin="0,4,107,4" HorizontalAlignment="Right">
+            <Button x:Name="BtnSearch" Height="24" Width="28" Margin="0,4,107,4" HorizontalAlignment="Right" ToolTip="Search">
                 <Button.Content>
                     <Image Source="/nms_usercontrol_libs;component/images/search_24.png" />
                 </Button.Content>
             </Button>
-            <Button x:Name="BtnAddNew" Height="24" Width="28" Margin="0,0,45,0" HorizontalAlignment="Right" Click="BtnAddNew_Click">
+            <Button x:Name="BtnAddNew" Height="24" Width="28" Margin="0,0,45,0" HorizontalAlignment="Right" Click="BtnAddNew_Click" ToolTip="New">
                 <Button.Content>
                     <Image Source="/nms_usercontrol_libs;component/images/add_16.png" Width="16" Height="16" />
                 </Button.Content>
             </Button>
-            <Button x:Name="BtnRefresh" Height="24" Width="28" Margin="0,0,10,0" HorizontalAlignment="Right" Click="BtnRefresh_Click">
+            <Button x:Name="BtnRefresh" Height="24" Width="28" Margin="0,0,10,0" HorizontalAlignment="Right" Click="BtnRefresh_Click" ToolTip="Refresh">
                 <Button.Content>
                     <Image Source="/nms_usercontrol_libs;component/images/refresh_24.png" />
                 </Button.Content>
@@ -43,18 +43,38 @@
         <!--树形栏-->
         <ScrollViewer Grid.Row="1" Margin="0,0,5,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" >
             <TreeView x:Name="SiteListTreeView" BorderThickness="0" Background="Transparent"  Margin="5">
+                <TreeView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="New">
+                            <MenuItem Header="Site" />
+                            <MenuItem Header="Area" />
+                            <MenuItem Header="BTS" />
+                        </MenuItem>
+                        <Separator/>
+                        <MenuItem Header="Connect"/>
+                        <MenuItem Header="Get MOID"/>
+                        <Separator/>
+                        <MenuItem Header="Copy"/>
+                        <MenuItem Header="Delete"/>
+                        <Separator/>
+                        <MenuItem Header="Properties"/>
+                    </ContextMenu>
+                </TreeView.ContextMenu>
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate DataType="{x:Type local:PropertyNodeItem}" ItemsSource="{Binding Path=Children}">                        
                         <StackPanel Orientation="Horizontal" Height="20">
                             <Image VerticalAlignment="Center" Source="{Binding Icon}"  Width="16" Height="16" Margin="0,0,2,2" Stretch="None"></Image>
-                            <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}"></TextBlock>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding DisplayName}">
+                                <TextBlock.ToolTip>
+                                <TextBlock VerticalAlignment="Center" Text="{Binding ToolTips}" TextWrapping="Wrap" MaxWidth="200" ></TextBlock>
+                                </TextBlock.ToolTip>
+                            </TextBlock>
                             <Image VerticalAlignment="Center" Source="{Binding EditIcon}" Width="16" Height="16" Margin="10,0,0,0" MouseDown="BtnRepeaterEdit_Click" Stretch="Uniform"></Image>
-                            <StackPanel.ToolTip>
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="200" ></TextBlock>
-                            </StackPanel.ToolTip>
+                            
                         </StackPanel>
                     </HierarchicalDataTemplate>
                 </TreeView.ItemTemplate>
+                
             </TreeView>
         </ScrollViewer>
     </Grid>

@@ -29,22 +29,40 @@ namespace nms_database_lib
             return table.GetSiteBySiteId(siteid, subid);
         }
 
+        public static Site GetSiteById(int id)
+        {
+            SiteTable table = new SiteTable();
+            return table.GetSiteById(id);
+        }
+
+        public static List<Site> GetSiteListByPid(int pid)
+        {
+            SiteTable table = new SiteTable();
+            return table.GetSiteListByPid(pid);
+        }
+
         public static List<Site> GetSiteAll()
         {
             SiteTable table = new SiteTable();
             return table.GetSiteAll();
         }
 
-        public bool SiteUpdate(Site site)
+        public static bool SiteUpdate(Site site)
         {
             SiteTable table = new SiteTable();
             return table.Update(site);
         }
 
-        public bool SiteInsert(Site site)
+        public static bool SiteInsert(Site site)
         {
             SiteTable table = new SiteTable();
             return table.Insert(site);
+        }
+
+        public static bool SiteDelete(Site site)
+        {
+            SiteTable table = new SiteTable();
+            return table.Delete(site);
         }
         #endregion
 
@@ -134,41 +152,47 @@ namespace nms_database_lib
         }
         #endregion
 
-        #region region object table operation function
-        public static Region GetRegionByID(int id)
+        #region area object table operation function
+        public static Area GetAreaByID(int id)
         {
-            RegionTable table = new RegionTable();
+            AreaTable table = new AreaTable();
             return table.GetRegionByID(id);
         }
 
-        public static Region GetRegionByName(string name)
+        public static Area GetAreaByName(string name)
         {
-            RegionTable table = new RegionTable();
+            AreaTable table = new AreaTable();
             return table.GetRegionByName(name);
         }
 
-        public static List<Region> GetRegionAll()
+        public static List<Area> GetAreaAll()
         {
-            RegionTable table = new RegionTable();
+            AreaTable table = new AreaTable();
             return table.GetRegionAll();
         }
 
-        public static bool UpdateRegion(Region region)
+        public static List<Area> GetAreaAllByPid(int pid)
         {
-            RegionTable table = new RegionTable();
-            return table.Update(region);
+            AreaTable table = new AreaTable();
+            return table.GetAreaAllByPid(pid);
         }
 
-        public static bool InsertRegion(Region region)
+        public static bool UpdateArea(Area area)
         {
-            RegionTable table = new RegionTable();
-            return table.Insert(region);
+            AreaTable table = new AreaTable();
+            return table.Update(area);
         }
 
-        public static bool DeleteRegion(Region region)
+        public static bool InsertArea(Area area)
         {
-            RegionTable table = new RegionTable();
-            return table.Delete(region);
+            AreaTable table = new AreaTable();
+            return table.Insert(area);
+        }
+
+        public static bool DeleteArea(Area area)
+        {
+            AreaTable table = new AreaTable();
+            return table.Delete(area);
         }
         #endregion
 
@@ -317,6 +341,100 @@ namespace nms_database_lib
         {
             BaseStatTable table = new BaseStatTable();
             return table.Delete(baseStat);  
+        }
+        #endregion
+
+        #region moid object table
+        public static SiteMoid GetSiteMoidByMoid(string tableName, ushort moid)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.GetSiteMoidByMoid(tableName, moid);
+        }
+
+        public static List<SiteMoid> GetSiteMoidAll(string tableName)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.GetSiteMoidAll(tableName);
+        }
+
+        public static bool DeleteSiteMoidTableItem(string tableName, SiteMoid moid)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.DeleteSiteMoidTableItem(tableName, moid);
+        }
+
+        public static bool DeleteSiteMoidTableItemAll(string tableName)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.DeleteSiteMoidTableItemAll(tableName);
+        }
+
+        public static bool DeleteSiteMoidTable(string tableName)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.DeleteSiteMoidTable(tableName);
+        }
+
+        public static bool CreateSiteMoidTable(string tableName)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.CreateSiteMoidTable(tableName);
+        }
+
+        public static bool InsertSiteMoidItem(string tableName, SiteMoid moid)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.InsertSiteMoidItem(tableName, moid);
+        }
+
+        public static bool InsertSiteMoidTableItem(string tableName, List<SiteMoid> moidList)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.InsertSiteMoidTableItem(tableName, moidList);
+        }
+
+        public static bool UpdateSiteMoidTableItem(string tableName, SiteMoid moid)
+        {
+            SiteMoidTable table = new SiteMoidTable();
+            return table.UpdateSiteMoidTableItem(tableName, moid);
+        }
+        #endregion
+
+        #region tree view table define  
+        public static Tree GetTreeById(int id)
+        {
+            TreeTable table = new TreeTable();
+            return table.GetTreeById(id);
+        }
+
+        public static List<Tree> GetTreeAll()
+        {
+            TreeTable table = new TreeTable();
+            return table.GetTreeAll();
+        }
+
+        public static bool DeleteTreeById(Tree tree)
+        {
+            TreeTable table = new TreeTable();
+            return table.DeleteTreeById(tree);
+        }
+
+        public static bool DeleteTreeAll()
+        {
+            TreeTable table = new TreeTable();
+            return table.DeleteTreeAll();
+        }
+
+        public static bool InsertTreeElement(Tree tree)
+        {
+            TreeTable table = new TreeTable();
+            return table.InsertTreeElement(tree);
+        }
+
+        public static bool UpdateTreeElement(Tree tree)
+        {
+            TreeTable table = new TreeTable();
+            return table.UpdateTreeElement(tree);
         }
         #endregion
     }

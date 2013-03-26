@@ -10,6 +10,7 @@ namespace nms_comm_lib
     public class CommunicateBase
     {
         public event CommunDataReceiveHandler CommunDataReceiveComplated = null;
+        public event CommunDataReceiveHandler CommunLogsReceiveComplated = null;
 
         List<UdpServer> udpServerList = new List<UdpServer>();
         List<TcpServer> tcpServerList = new List<TcpServer>();
@@ -24,7 +25,7 @@ namespace nms_comm_lib
             serialServerList.Clear();
         }
 
-        private void Stop()
+        public void Stop()
         {
              DisponseUdpServer();
              DisponseTcpServer();
@@ -76,12 +77,13 @@ namespace nms_comm_lib
             return bResult;
         }
 
-        public bool CreateRS232Server(string name, int baudrate)
+        public bool CreateRS232Server(string name, int baudrate, int timeout)
         {
             bool bResult = false;
 
-            SerialMode serialServer = new SerialMode(name, baudrate);
+            SerialMode serialServer = new SerialMode(name, baudrate, timeout);
             serialServer.SerialDataReceiveComplated += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
+            serialServer.SerialLogsReceiveComplated += new CommunDataReceiveHandler(OnCommunLogsReceiveComplated);
             bResult = serialServer.Start();
             if (bResult == true)
             {
@@ -91,12 +93,13 @@ namespace nms_comm_lib
             return bResult;
         }
 
-        public bool CreateModemServer(string name, int baudrate, SmsTxRx txrx)
+        public bool CreateModemServer(string name, int baudrate, int timeout, SmsTxRx txrx)
         {
             bool bResult = false;
 
-            SmsMode smsMode = new SmsMode(name, baudrate, txrx);
+            SmsMode smsMode = new SmsMode(name, baudrate, timeout, txrx);
             smsMode.ModemDataRecevieCompleted += new CommunDataReceiveHandler(OnCommunDataReceiveComplated);
+            smsMode.ModemLogsRecevieCompleted += new CommunDataReceiveHandler(OnCommunLogsReceiveComplated);
             bResult = smsMode.Start(3);
             if (bResult == true)
             {
@@ -163,6 +166,21 @@ namespace nms_comm_lib
             if (null != CommunDataReceiveComplated)
             {
                 CommunDataReceiveComplated(sender, e);
+
+                // 串口和modem有日志回调函数
+                if (e.Mode == CommunicateMode.UDP || e.Mode == CommunicateMode.GPRS)
+                {
+                    e.Logs = CommunicateLogs.LOG_RX;
+                    OnCommunLogsReceiveComplated(sender, e);
+                }
+            }
+        }
+
+        private void OnCommunLogsReceiveComplated(object sender, CommuEventArgs e)
+        {
+            if (null != CommunLogsReceiveComplated)
+            {
+                CommunLogsReceiveComplated(sender, e);
             }
         }
 
@@ -187,8 +205,11 @@ namespace nms_comm_lib
 
                     foreach (SerialMode element in serialServerList)
                     {
-                        element.Send(data);
-                        break;
+                        if (element.Name == e.CommName)
+                        {
+                            element.Send(data);
+                            break;
+                        }
                     }
                     break;
 
@@ -224,7 +245,7 @@ namespace nms_comm_lib
 
                     foreach (SmsMode element in smsServerList)
                     {
-                        if (element.TxRx == SmsTxRx.TX)
+                        if (element.TxRx == SmsTxRx.TX && e.CommName == element.Name)
                         {
                             string strText = Encoding.ASCII.GetString(data);
                             element.SendToSMS(e.PhoneText, strText);
@@ -250,6 +271,13 @@ namespace nms_comm_lib
                         break;
                     }
                     break;
+            }
+            
+            // 串口和modem有日志回调函数
+            if (e.Mode == CommunicateMode.UDP || e.Mode == CommunicateMode.GPRS)
+            {
+                e.Logs = CommunicateLogs.LOG_TX;
+                OnCommunLogsReceiveComplated(this, e);
             }
 
             return true;
@@ -340,6 +368,13 @@ namespace nms_comm_lib
                     break;
             }
 
+            // 串口和modem有日志回调函数
+            if (e.Mode == CommunicateMode.UDP || e.Mode == CommunicateMode.GPRS)
+            {
+                e.Logs = CommunicateLogs.LOG_TX;
+                OnCommunLogsReceiveComplated(this, e);
+            }
+
             return true;
         }
 
@@ -348,8 +383,20 @@ namespace nms_comm_lib
         /// </summary>
         /// <param name="data"></param>
         /// <param name="mode"></param>
-        public bool Send(byte[] data, CommuEventArgs e)
+        public bool Send(byte[] data, CommunicateMode mode)
         {
+            CommuEventArgs args = new CommuEventArgs(data, mode);
+
+            return SendPrivate(data, args);
+        }
+
+        /// <summary>
+        /// 此函数只能发送串口的数据，通信方式必须设置为RS232
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="mode"></param>
+        public bool Send(byte[] data, CommuEventArgs e)
+        {           
             return SendPrivate(data, e);
         }
 
@@ -359,7 +406,7 @@ namespace nms_comm_lib
         /// <param name="data"></param>
         /// <param name="mode"></param>
         public bool Send(string data, CommuEventArgs e)
-        {
+        {           
             return SendPrivate(data, e);
         }
     }

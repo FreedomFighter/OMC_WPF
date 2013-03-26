@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="nms_usercontrol_libs.src.ComParameters"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="36" d:DesignWidth="300">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="DictionaryUserControls.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <StackPanel Orientation="Horizontal" Margin="5" Height="26">
+        <CheckBox Content="COM1" Margin="5"/>
+        <ComboBox Width="80" Height="26">
+            <ComboBoxItem Content="RS232" />
+            <ComboBoxItem Content="GSM/WCDMA Modem" />
+            <ComboBoxItem Content="CDMA Modem" />
+        </ComboBox>
+        <Button Width="60" Height="26" Content="Config" Margin="5,0,0,0" />
+    </StackPanel>
+</UserControl>

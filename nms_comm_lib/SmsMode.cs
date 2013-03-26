@@ -77,6 +77,7 @@ namespace nms_comm_lib
         Thread smsThread = null;
         List<byte[]> commReceived = new List<byte[]>();
         public event CommunDataReceiveHandler ModemDataRecevieCompleted = null;
+        public event CommunDataReceiveHandler ModemLogsRecevieCompleted = null;
 
         private SmsTxRx txrx = SmsTxRx.TX;
         public SmsTxRx TxRx
@@ -103,7 +104,8 @@ namespace nms_comm_lib
         public SmsMode()
         {
             serialMode = new SerialMode();
-            serialMode.SerialDataReceiveComplated += new CommunDataReceiveHandler(DataReceiveFromHandle);
+            serialMode.SerialDataReceiveComplated += new CommunDataReceiveHandler(OnDataReceiveFromHandle);
+            serialMode.SerialLogsReceiveComplated += new CommunDataReceiveHandler(OnCommunLogsReceiveComplated);
         }
 
         /// <summary>
@@ -111,11 +113,12 @@ namespace nms_comm_lib
         /// </summary>
         /// <param name="name"></param>
         /// <param name="baudrate"></param>
-        public SmsMode(string name, int baudrate, SmsTxRx txrx)
+        public SmsMode(string name, int baudrate, int timeout, SmsTxRx txrx)
         {
             TxRx = txrx;
-            serialMode = new SerialMode(name, baudrate);
-            serialMode.SerialDataReceiveComplated += new CommunDataReceiveHandler(DataReceiveFromHandle);
+            serialMode = new SerialMode(name, baudrate, timeout);
+            serialMode.SerialDataReceiveComplated += new CommunDataReceiveHandler(OnDataReceiveFromHandle);
+            serialMode.SerialLogsReceiveComplated += new CommunDataReceiveHandler(OnCommunLogsReceiveComplated);
         }
 
         ~SmsMode()
@@ -123,7 +126,8 @@ namespace nms_comm_lib
             if (serialMode.IsStart)
             {
                 serialMode.Stop();
-                serialMode.SerialDataReceiveComplated -= new CommunDataReceiveHandler(DataReceiveFromHandle);
+                serialMode.SerialDataReceiveComplated -= new CommunDataReceiveHandler(OnDataReceiveFromHandle);
+                serialMode.SerialLogsReceiveComplated -= new CommunDataReceiveHandler(OnCommunLogsReceiveComplated);
             }
         }
 
@@ -221,7 +225,7 @@ namespace nms_comm_lib
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void DataReceiveFromHandle(object sender, CommuEventArgs e)
+        private void OnDataReceiveFromHandle(object sender, CommuEventArgs e)
         {          
             string sms = Encoding.ASCII.GetString(e.Data).Replace('\0', '?').ToUpper();
 
@@ -503,6 +507,15 @@ namespace nms_comm_lib
             }
 
             return -1; // 命令执行不成功
+        }
+
+        private void OnCommunLogsReceiveComplated(object sender, CommuEventArgs e)
+        {
+            if (null != ModemLogsRecevieCompleted)
+            {
+                e.Mode = CommunicateMode.SMS;                
+                ModemLogsRecevieCompleted(sender, e);
+            }
         }
     }
 }

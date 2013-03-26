@@ -67,15 +67,18 @@
     <Compile Include="src\BotStatusBar.xaml.cs">
       <DependentUpon>BotStatusBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\ComParameters.xaml.cs">
+      <DependentUpon>ComParameters.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\CurSiteInfo.xaml.cs">
       <DependentUpon>CurSiteInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="src\Customer.cs" />
     <Compile Include="src\DataGridEventArgs.cs" />
     <Compile Include="src\DataGridModel.cs" />
     <Compile Include="src\OperationLogView.xaml.cs">
       <DependentUpon>OperationLogView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\PropertyNodeItem.cs" />
     <Compile Include="src\RepeaterParaTabs.xaml.cs">
       <DependentUpon>RepeaterParaTabs.xaml</DependentUpon>
     </Compile>
@@ -85,6 +88,7 @@
     <Compile Include="src\ToolBar.xaml.cs">
       <DependentUpon>ToolBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\TreeDataDispConvert.cs" />
     <Compile Include="src\UserLogin.xaml.cs">
       <DependentUpon>UserLogin.xaml</DependentUpon>
     </Compile>
@@ -107,7 +111,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="src\ComParameters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\CurSiteInfo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\DictionaryUserControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -269,10 +281,35 @@
     <Resource Include="images\computer_1_16.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\nms_database_lib\nms_database_lib.csproj">
+      <Project>{75c1ae98-67db-416d-bcc8-b682d9d1b8e6}</Project>
+      <Name>nms_database_lib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\nms_datatype_lib\nms_datatype_lib.csproj">
       <Project>{27e78a2a-b782-4729-b1e0-16ac688045b0}</Project>
       <Name>nms_datatype_lib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\earth_24.png" />
+    <Resource Include="images\select_1_24.png" />
+    <Resource Include="images\wireless_0_16.png" />
+    <Resource Include="images\wireless_1_16.png" />
+    <Resource Include="images\wireless_2_16.png" />
+    <Resource Include="images\wireless_3_16.png" />
+    <Resource Include="images\wireless_4_16.png" />
+    <Resource Include="images\wireless_5_16.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\cancel_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\save_24.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\button_cancel_1_24.png" />
+    <Resource Include="images\button_cancel_24.png" />
+    <Resource Include="images\button_ok_24.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

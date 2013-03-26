@@ -11,7 +11,7 @@ namespace nms_comm_lib
 {
     class SerialMode
     {
-         /// <summary>
+        /// <summary>
         /// 串口类定义
         /// </summary>
         private SerialPort serialPort = new SerialPort();
@@ -35,6 +35,17 @@ namespace nms_comm_lib
             get { return serialPort.PortName; }
             set { serialPort.PortName = value; }
         }
+
+        private int timeout = 30;
+        public int Timeout
+        {
+            get { return timeout; }
+            set { timeout = value; }
+        }
+
+        private int SendTimeout = 0;
+        private bool isStartSend = false;
+       
         /// <summary>
         /// 线程ID
         /// </summary>
@@ -55,8 +66,10 @@ namespace nms_comm_lib
         // 待发数据和已接收数据的列表
         private List<byte[]> commToSend = new List<byte[]>();
         private List<byte[]> commReceived = new List<byte[]>();
+        private List<byte[]> commTimeout = new List<byte[]>();
 
         public event CommunDataReceiveHandler SerialDataReceiveComplated = null;
+        public event CommunDataReceiveHandler SerialLogsReceiveComplated = null;
         /// <summary>
         /// 构造函数
         /// </summary>
@@ -69,9 +82,10 @@ namespace nms_comm_lib
         /// </summary>
         /// <param name="name"></param>
         /// <param name="baudrate"></param>
-        public SerialMode(string name, int baudrate)
+        public SerialMode(string name, int baudrate, int timeout)
         {
             Name = name;
+            Timeout = timeout;
             BaudRate = baudrate;
 
             _Start();
@@ -84,6 +98,9 @@ namespace nms_comm_lib
 
         private void _Start()
         {
+            SendTimeout = 0;
+            isStartSend = false;
+
             // 初始化串口对象
             serialPort.DataReceived += new SerialDataReceivedEventHandler(SerialPort_DataReceived);
 
@@ -152,32 +169,92 @@ namespace nms_comm_lib
         private void OnRecevieThreadHandler()
         {
             while (_isStart)
-            {              
-                lock (commReceived)
+            {
+                try
                 {
-                    if (commReceived.Count > 0)
+                    // 计算发送数据超时
+                    lock (commTimeout)
                     {
-                        if (null != SerialDataReceiveComplated)
+                        if (isStartSend == true && commTimeout.Count > 0)
                         {
-                            byte[] data = commReceived[0];
-                            CommuEventArgs args = new CommuEventArgs(data, CommunicateMode.RS232);
-                            SerialDataReceiveComplated(this, args);
-                            commReceived.RemoveAt(0);
+                            // 超时
+                            if (++SendTimeout > Timeout * 10)
+                            {
+                                if (null != SerialDataReceiveComplated)
+                                {
+                                    byte[] data = commTimeout[0];
+                                    CommuEventArgs args = new CommuEventArgs(data, CommunicateMode.TIMEOUT);
+                                    SerialDataReceiveComplated(this, args);
+                                    commTimeout.Clear();
+                                    // 超时时恢复
+                                    SendTimeout = 0;
+                                    isStartSend = false;
+                                }
+                            }
                         }
                     }
-                }
 
-                lock (commToSend)
-                {
-                    if (commToSend.Count > 0)
+                    lock (commReceived)
                     {
-                        byte[] data = commToSend[0];
-                        serialPort.Write(data, 0, data.Length);
-                        commToSend.RemoveAt(0);
-                    }
-                }
+                        if (commReceived.Count > 0)
+                        {
+                            if (null != SerialDataReceiveComplated)
+                            {
+                                byte[] data = commReceived[0];
+                                CommuEventArgs args = new CommuEventArgs(data, CommunicateMode.RS232);
+                                SerialDataReceiveComplated(this, args);
+                                commReceived.RemoveAt(0);
+                                // 接收到数据时恢复
+                                SendTimeout = 0;
+                                isStartSend = false;
 
-                Thread.Sleep(100); //100ms
+                                if (null != SerialLogsReceiveComplated)
+                                {
+                                    CommuEventArgs logs = new CommuEventArgs(data, this.Name, CommunicateMode.RS232);
+                                    logs.Logs = CommunicateLogs.LOG_RX;
+                                    SerialLogsReceiveComplated(this, logs);
+                                }
+                            }
+                        }
+                    }
+
+                    lock (commToSend)
+                    {
+                        if (commToSend.Count > 0)
+                        {
+                            byte[] data = commToSend[0];
+                            if (null == data || data.Length <= 0)
+                            {
+                                commToSend.RemoveAt(0);
+                                continue;
+                            }
+                            if (null == serialPort)
+                            {
+                                continue;
+                            }
+
+                            serialPort.Write(data, 0, data.Length);
+                            SendTimeout = 0;
+                            isStartSend = true; // 标识以及发送数据，开始计数计算超时时间
+
+                            if (null != SerialLogsReceiveComplated)
+                            {
+                                CommuEventArgs logs = new CommuEventArgs(data, this.Name, CommunicateMode.RS232);
+                                logs.Logs = CommunicateLogs.LOG_TX;
+                                SerialLogsReceiveComplated(this, logs);
+                            }
+
+                            commTimeout.Add(data);
+                            commToSend.RemoveAt(0);                           
+                        }
+                    }
+
+                    Thread.Sleep(100); //100ms
+                }
+                catch (Exception r)
+                {
+                    Console.WriteLine(r.Message);
+                }
             }
         }
 
@@ -201,7 +278,7 @@ namespace nms_comm_lib
                 }
             }
         }
-
+              
         public void Send(byte[] data)
         {
             lock (commToSend)

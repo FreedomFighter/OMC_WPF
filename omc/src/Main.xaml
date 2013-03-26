@@ -35,7 +35,7 @@
                     <Separator HorizontalAlignment="Left" Width="250"/>
                     <MenuItem x:Name="TopMenuSystem" Header="System Parameters" HorizontalAlignment="Left" Width="250"/>
                     <MenuItem x:Name="TopMenuCommunication" Header="Communication Parameters" HorizontalAlignment="Left" Width="250"/>
-                    <MenuItem x:Name="TopMenuComParameters" Header="COM Parameters" HorizontalAlignment="Left" Width="250"/>
+                    <MenuItem x:Name="TopMenuComParameters" Header="COM Parameters" HorizontalAlignment="Left" Width="250" Click="TopMenuComParameters_Click"/>
                     <MenuItem x:Name="TopMenuConfigCFMS" Header="Config CFMS" HorizontalAlignment="Left" Width="250"/>
                     <MenuItem x:Name="TopMenuTimedReport" Header="Timed Report" HorizontalAlignment="Left" Width="250"/>
 

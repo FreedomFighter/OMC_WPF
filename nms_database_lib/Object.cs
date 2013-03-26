@@ -75,7 +75,7 @@ namespace nms_database_lib
     #region Site object database table
     enum SiteColumn
     {
-        ID = 0x00, PID, SiteId, SubId, DeviceType, Model, SiteType, CommMode, CreateDate, Telphone, sProtocol, SiteName, sAddress, sFactory, IPAddress, Port, Moidlist,
+        ID = 0x00, PID, SiteId, SubId, DeviceType, Model, SiteType, CommMode, Baudrate, CommName, CreateDate, Telphone, sProtocol, SiteName, sAddress, sFactory, IPAddress, Port, TableName,
     }
     /// <summary>
     /// 直放站站点管理表
@@ -89,21 +89,24 @@ namespace nms_database_lib
         public byte DeviceType { get; set; } // 设备类型
         public byte Model { get; set; }      // 通信方式
         public byte SiteType { get; set; }
-        public byte CommMode { get; set; }
+        public byte CommMode { get; set; }        
         public uint IPAddress { get; set; }
         public ushort Port { get; set; }
+        public int Baudrate { get; set; }
+        public string CommName { get; set; }
         public string Telphone { get; set; }
         public string sProtocol { get; set; }
         public string SiteName { get; set; }
         public string sAddress { get; set; }
         public string sFactory { get; set; }
-        public string Moidlist { get; set; }   // 每个设备的MOID列表，采用直存储监控参量列表的形式保存每个设备的监控参量
+        public string TableName { get; set; }   // 每个设备的MOID列表，采用直存储监控参量列表的形式保存每个设备的监控参量
+        public string CreateDate { get; set; }
 
         public Site()
         {
         }
 
-        public Site(int id, int pid, uint siteid, byte subid, byte devicetype, byte model, uint ipaddress, ushort port, string telphone, string moidlist)
+        public Site(int id, int pid, uint siteid, byte subid, byte devicetype, byte model, uint ipaddress, ushort port, string telphone, string tableName)
         {
             ID = id;
             PID = pid;
@@ -114,12 +117,43 @@ namespace nms_database_lib
             IPAddress = ipaddress;
             Port = port;
             Telphone = telphone;
-            Moidlist = moidlist;
+            TableName = tableName;
+        }
+
+        public Site(int id, int pid, uint siteid, byte subid, byte devicetype, byte model, int baudrate, uint ipaddress, ushort port, string telphone, string commName, string tableName)
+        {
+            ID = id;
+            PID = pid;
+            SiteId = siteid;
+            SubId = subid;
+            DeviceType = devicetype;
+            Model = model;
+            IPAddress = ipaddress;
+            Port = port;
+            Telphone = telphone;
+            TableName = tableName;
+            Baudrate = baudrate;
+            CommName = commName;
         }
 
         public Site Clone()
         {
-            return new Site(this.ID, this.PID, this.SiteId, this.SubId, this.DeviceType, this.Model, this.IPAddress, this.Port, this.Telphone, this.Moidlist);
+            return new Site(this.ID, this.PID, this.SiteId, this.SubId, this.DeviceType, this.Model, this.IPAddress, this.Port, this.Telphone, this.TableName);
+        }
+
+        public void Copy(Site other)
+        {
+            this.ID = other.ID;
+            this.PID = other.PID;
+            this.SiteId = other.SiteId;
+            this.SubId = other.SubId;
+            this.DeviceType = other.DeviceType;
+            this.Model = other.Model;
+            this.CommMode = other.CommMode;
+            this.IPAddress = other.IPAddress;
+            this.Port = other.Port;
+            this.Telphone = other.Telphone;
+            this.TableName = other.TableName;
         }
     }
     #endregion
@@ -236,30 +270,43 @@ namespace nms_database_lib
     }
     #endregion
 
-    #region region list object define
-    enum RegionColumn
+    #region area list object define
+    enum AreaColumn
     {
-        ID = 0x00, RegionID, RegionName, CreateDate,
+        ID = 0x00, AreaID, AreaPID, AreaName, CreateDate,
     }
 
-    public class Region
+    public class Area
     {
         public int ID { get; set; }
-        public int RegionID { get; set; }
-        public string RegionName { get; set; }
+        public int AreaID { get; set; }
+        public int AreaPID { get; set; }
+        public string AreaName { get; set; }
         public string CreateDate { get; set; }
 
-        public Region(int id, int regionid, string regionname, string createdate)
+        public Area()
         {
-            this.ID = id;
-            this.RegionID = regionid;
-            this.RegionName = regionname;
-            this.CreateDate = createdate;
         }
 
-        public Region Clone()
+        public Area(int id, int areaId, int areaPid, string areaName, string createDate)
         {
-            return new Region(this.ID, this.RegionID, this.RegionName, this.CreateDate);
+            this.ID = id;
+            this.AreaPID = areaPid;
+            this.AreaName = areaName;
+            this.CreateDate = createDate;
+        }
+
+        public Area Clone()
+        {
+            return new Area(this.ID, this.AreaPID, this.AreaPID, this.AreaName, this.CreateDate);
+        }
+
+        public void Copy(Area other)
+        {
+            this.ID = other.ID;
+            this.AreaPID = other.AreaPID;
+            this.AreaName = other.AreaName;
+            this.CreateDate = other.CreateDate;
         }
     }
     #endregion
@@ -453,6 +500,127 @@ namespace nms_database_lib
         public BaseStat Clone()
         {
             return new BaseStat(this.ID, this.BaseStatName, this.CID, this.X, this.Y, this.PNBCCH64, this.Province, this.City, this.BaseStatCode, this.Detail);
+        }
+    }
+    #endregion
+
+    #region repeater create to database
+    enum SiteMoidColumn
+    {
+       Moid = 0x00, Enname, Cnname, Readonly, Type, AlarmLevel, Length, Unit, SystemType, LocalValue, RemoteValue,
+    }
+    /// <summary>
+    /// moid静态管理表，符合中国移动协议的所有监控对象标识和数据定义
+    /// </summary>
+    public class SiteMoid
+    {
+        public int ID { get; set; }
+        public int Level { get; set; }
+        public int Length { get; set; }
+        public bool Readonly { get; set; }
+        public ushort Oid { get; set; }
+        public string Unit { get; set; }
+        public string Type { get; set; }
+        public string Enname { get; set; }
+        public string Cnname { get; set; }
+        public string System { get; set; }
+        public string LocalValue { get; set; }
+        public string RemoteValue { get; set; }
+
+        public SiteMoid()
+        {
+        }
+
+        /// <summary>
+        /// 类构造函数，带所有参量,其不带参数的构造函数为默认的
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="level"></param>
+        /// <param name="length"></param>
+        /// <param name="only"></param>
+        /// <param name="moid"></param>
+        /// <param name="unit"></param>
+        /// <param name="type"></param>
+        /// <param name="enname"></param>
+        /// <param name="cnname"></param>
+        /// <param name="value"></param>
+        /// <param name="system"></param>
+        public SiteMoid(int level, int length, bool only, ushort oid, string unit, string type, string enname, string cnname,string system)
+        {
+            this.Level = level;
+            this.Length = length;
+            this.Readonly = only;
+            this.Oid = oid;
+            this.Unit = unit;
+            this.Type = type;
+            this.Enname = enname;
+            this.Cnname = cnname;
+            this.System = system;
+        }
+
+        public SiteMoid(int level, int length, bool only, ushort oid, string unit, string type, string enname, string cnname,string system,string local, string remote)
+        {
+            this.Level = level;
+            this.Length = length;
+            this.Readonly = only;
+            this.Oid = oid;
+            this.Unit = unit;
+            this.Type = type;
+            this.Enname = enname;
+            this.Cnname = cnname;
+            this.System = system;
+            this.LocalValue = local;
+            this.RemoteValue = remote;
+        }
+
+        /// <summary>
+        /// 克隆一个对象
+        /// </summary>
+        /// <returns>返回一个新对象，但值和本实例的值相同</returns>
+        public SiteMoid Clone()
+        {
+            return new SiteMoid(this.Level, this.Length, this.Readonly, this.Oid, this.Unit, this.Type, this.Enname, this.Cnname, this.System, this.LocalValue, this.RemoteValue);
+        }
+    }
+    #endregion
+
+    #region tree view table
+    enum TreeColumn
+    {
+        ID = 0x00, NodeType, NodeID, DispName, NodePID, Order,
+    }
+
+    public enum TreeNodeType
+    {
+        Type = 0x00, AreaType, BtsType, SiteType,
+    }
+
+    public class Tree
+    {
+        public int ID { get; set; }
+        public int NodeType { get; set; }
+        public int NodeID { get; set; }
+        public int NodePID { get; set; }
+        public int Order { get; set; }
+        public string DispName { get; set; }
+
+        public Tree()
+        {
+        }
+
+        public Tree(int id, int nodeType, int nodeId, int nodePid, int order, string dispName)
+        {
+            this.ID = id;
+            this.Order = order;
+            this.NodeID = nodeId;
+            this.NodePID = nodePid;
+            this.NodeType = nodeType;
+            this.DispName = dispName;            
+        }
+
+        public Tree Clone()
+        {
+            return new Tree(this.ID, this.NodeType, this.NodeID, this.NodePID, this.Order, this.DispName);
         }
     }
     #endregion

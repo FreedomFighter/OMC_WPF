@@ -179,11 +179,20 @@ namespace nms_database_lib
                 {
                     port = Convert.ToUInt16(strLine);
                 }
+
+                int baudrate = 0;
+                strLine = row[SiteColumn.Baudrate.ToString()].ToString();
+                if (false == string.IsNullOrEmpty(strLine))
+                {
+                    baudrate = Convert.ToInt32(strLine);
+                }
                 
                 string telphone = row[SiteColumn.Port.ToString()].ToString();
-                string moids = row[SiteColumn.Moidlist.ToString()].ToString();
+                string tableName = row[SiteColumn.TableName.ToString()].ToString();
 
-                Site site = new Site(id, pid, siteid, subid, type, mode, address, port, telphone, moids);
+                Site site = new Site(id, pid, siteid, subid, type, mode, address, port, telphone, tableName);
+                site.Baudrate = baudrate;
+                site.CommName = row[SiteColumn.CommName.ToString()].ToString();
                 site.SiteName = row[SiteColumn.SiteName.ToString()].ToString();
                 site.sProtocol = row[SiteColumn.sProtocol.ToString()].ToString();
                 site.sAddress = row[SiteColumn.sAddress.ToString()].ToString();
@@ -208,7 +217,7 @@ namespace nms_database_lib
             try
             {
                 DataTable table = new DataTable();
-                string query = string.Format("select * from tbl_site where {0} = {1} and {2} = {3}", SiteColumn.SiteId.ToString(), siteid, SiteColumn.SubId.ToString(), subid);
+                string query = string.Format("select * from tbl_site where SiteId = {0} and SubId = {1}", siteid, subid);
                 OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
                 adapter.Fill(table);
 
@@ -224,6 +233,59 @@ namespace nms_database_lib
             }
 
             return site;
+        }
+
+        public Site GetSiteById(int id)
+        {
+            Site site = null;
+
+            try
+            {
+                DataTable table = new DataTable();
+                string query = string.Format("select * from tbl_site where ID = {0}", id);
+                OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
+                adapter.Fill(table);
+
+                foreach (DataRow row in table.Rows)
+                {
+                    site = ParserObjectFromDataRow(row);
+                    break;
+                }
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return site;
+        }
+
+        public List<Site> GetSiteListByPid(int pid)
+        {
+            List<Site> siteList = new List<Site>();
+
+            try
+            {
+                DataTable table = new DataTable();
+                string query = string.Format("select * from tbl_site where PID = {0}", pid);
+                OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
+                adapter.Fill(table);
+
+                foreach (DataRow row in table.Rows)
+                {
+                    Site site = ParserObjectFromDataRow(row);
+                    if (site != null)
+                    {
+                        siteList.Add(site);
+                    }
+                }
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return siteList;
         }
 
         public List<Site> GetSiteAll()
@@ -253,12 +315,12 @@ namespace nms_database_lib
 
             return siteList;
         }
-
+               
         public bool Update(Site site)
         {
             try
             {
-                string query = string.Format("update tbl_RptInfo set {0]={1},{2}={3],{4}={5},{6}={7},{8}={9},{10}='{11}',{12}='{13}' where {14} = {15} and {16} = {17}", SiteColumn.PID.ToString(), site.PID, SiteColumn.DeviceType.ToString(), site.DeviceType, SiteColumn.Model.ToString(), site.Model, SiteColumn.IPAddress.ToString(), site.IPAddress, SiteColumn.Port.ToString(), site.Port, SiteColumn.Telphone.ToString(), site.Telphone, SiteColumn.Moidlist.ToString(), site.Moidlist, SiteColumn.SiteId.ToString(), site.SiteId, SiteColumn.SubId.ToString(), site.SubId);
+                string query = string.Format("update tbl_site set PID={0},SiteId={1},SubId={2},DeviceType={3},Model={4},SiteType={5},CommMode={6},Baudrate={7},CommName='{8}',CreateDate='{9}',Telphone='{10}',sProtocol='{11}',SiteName='{12}',sAddress='{13}',sFactory='{14}',IPAddress='{15}',Port={16},TableName='{17}' where ID={18}", site.PID, site.SiteId, site.SubId, site.DeviceType, site.Model, site.SiteType, site.CommMode, site.Baudrate, site.CommName, site.CreateDate, site.Telphone, site.sProtocol, site.SiteName, site.sAddress, site.sFactory, site.IPAddress, site.Port, site.TableName, site.ID);
                 OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
                 command.ExecuteNonQuery();
 
@@ -275,7 +337,24 @@ namespace nms_database_lib
         {
             try
             {
-                string query = string.Format("insert into tbl_site ({0],{1},{2},{3},{4},{5},{6},{7},{8}) values ({9},{10},{11},{12},{13},{14},{15},'{16}','{17}')", SiteColumn.PID.ToString(), SiteColumn.SiteId.ToString(), SiteColumn.SubId.ToString(), SiteColumn.DeviceType.ToString(), SiteColumn.Model.ToString(), SiteColumn.IPAddress.ToString(), SiteColumn.Port.ToString(), SiteColumn.Telphone.ToString(), SiteColumn.Moidlist.ToString(), site.PID, site.SiteId, site.SubId, site.DeviceType, site.Model, site.IPAddress, site.Port,site.Telphone, site.Moidlist);
+                string query = string.Format("insert into tbl_site (PID,SiteId,SubId,DeviceType,Model,SiteType,CommMode,Baudrate,CommName,CreateDate,Telphone,sProtocol,SiteName,sAddress,sFactory,IPAddress,Port,TableName) values ({0},{1},{2},{3},{4},{5},{6},{7},'{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}',{16},'{17}')", site.PID, site.SiteId, site.SubId, site.DeviceType, site.Model, site.SiteType, site.CommMode, site.Baudrate, site.CommName, site.CreateDate, site.Telphone, site.sProtocol, site.SiteName, site.sAddress, site.sFactory, site.IPAddress, site.Port, site.TableName);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool Delete(Site site)
+        {
+            try
+            {
+                string query = string.Format("delete from tbl_site where SiteId = {0} and SubId = {1}", site.SiteId, site.SubId);
                 OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
                 command.ExecuteNonQuery();
 
@@ -710,31 +789,38 @@ namespace nms_database_lib
     }
     #endregion
 
-    #region region table object define
-    class RegionTable
+    #region area table object define
+    class AreaTable
     {
-        private Region ParserRegionFromDataRow(DataRow row)
+        private Area ParserRegionFromDataRow(DataRow row)
         {
             try
             {
                 int id = 0;
-                string strLine = row[RegionColumn.ID.ToString()].ToString();
+                string strLine = row[AreaColumn.ID.ToString()].ToString();
                 if (false == string.IsNullOrEmpty(strLine))
                 {
                     id = Convert.ToInt32(strLine);
                 }
 
-                int regionid = 0;
-                strLine = row[RegionColumn.RegionID.ToString()].ToString();
+                int areaId = 0;
+                strLine = row[AreaColumn.AreaID.ToString()].ToString();
                 if (false == string.IsNullOrEmpty(strLine))
                 {
-                    regionid = Convert.ToInt32(strLine);
+                    areaId = Convert.ToInt32(strLine);
                 }
 
-                string regionname = row[RegionColumn.RegionName.ToString()].ToString();
-                string createdate = row[RegionColumn.CreateDate.ToString()].ToString();
+                int areaPid = 0;
+                strLine = row[AreaColumn.AreaPID.ToString()].ToString();
+                if (false == string.IsNullOrEmpty(strLine))
+                {
+                    areaPid = Convert.ToInt32(strLine);
+                }
 
-                return new Region(id, regionid, regionname, createdate);
+                string regionname = row[AreaColumn.AreaName.ToString()].ToString();
+                string createdate = row[AreaColumn.CreateDate.ToString()].ToString();
+
+                return new Area(id, areaId, areaPid, regionname, createdate);
             }
             catch (Exception r)
             {
@@ -744,20 +830,20 @@ namespace nms_database_lib
             return null;
         }
 
-        public Region GetRegionByID(int id)
+        public Area GetRegionByID(int id)
         {
-            Region region = null;
+            Area area = null;
 
             try
             {
                 DataTable table = new DataTable();
-                string query = string.Format("select * from tbl_region where ID = {0}", id);
+                string query = string.Format("select * from tbl_area where ID = {0}", id);
                 OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
                 adapter.Fill(table);
 
                 foreach (DataRow row in table.Rows)
                 {
-                    region = ParserRegionFromDataRow(row);
+                    area = ParserRegionFromDataRow(row);
                     break;
                 }
             }
@@ -766,23 +852,23 @@ namespace nms_database_lib
                 Console.WriteLine(r.Message);
             }
 
-            return region;
+            return area;
         }
 
-        public Region GetRegionByName(string name)
+        public Area GetRegionByName(string name)
         {
-            Region region = null;
+            Area area = null;
 
             try
             {
                 DataTable table = new DataTable();
-                string query = string.Format("select * from tbl_region where RegionName = '{0}'", name);
+                string query = string.Format("select * from tbl_area where AreaName = '{0}'", name);
                 OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
                 adapter.Fill(table);
 
                 foreach (DataRow row in table.Rows)
                 {
-                    region = ParserRegionFromDataRow(row);
+                    area = ParserRegionFromDataRow(row);
                     break;
                 }
             }
@@ -791,27 +877,27 @@ namespace nms_database_lib
                 Console.WriteLine(r.Message);
             }
 
-            return region;
+            return area;
         }
 
-        public List<Region> GetRegionAll()
+        public List<Area> GetRegionAll()
         {
-            List<Region> regionList = new List<Region>();
+            List<Area> areaList = new List<Area>();
 
             try
             {
                 DataTable table = new DataTable();
-                string query = string.Format("select * from tbl_region order by ID");
+                string query = string.Format("select * from tbl_area order by ID");
                 OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
                 adapter.Fill(table);
 
-                regionList.Clear();
+                areaList.Clear();
                 foreach (DataRow row in table.Rows)
                 {
-                    Region region = ParserRegionFromDataRow(row);
-                    if (null != region)
+                    Area area = ParserRegionFromDataRow(row);
+                    if (null != area)
                     {
-                        regionList.Add(region);
+                        areaList.Add(area);
                     }
                 }
             }
@@ -820,14 +906,43 @@ namespace nms_database_lib
                 Console.WriteLine(r.Message);
             }
 
-            return regionList;
+            return areaList;
         }
 
-        public bool Update(Region region)
+        public List<Area> GetAreaAllByPid(int pid)
+        {
+            List<Area> areaList = new List<Area>();
+
+            try
+            {
+                DataTable table = new DataTable();
+                string query = string.Format("select * from tbl_area where AreaPID = {0}", pid);
+                OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
+                adapter.Fill(table);
+
+                areaList.Clear();
+                foreach (DataRow row in table.Rows)
+                {
+                    Area area = ParserRegionFromDataRow(row);
+                    if (null != area)
+                    {
+                        areaList.Add(area);
+                    }
+                }
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return areaList;
+        }
+
+        public bool Update(Area area)
         {
             try
             {
-                string query = string.Format("update tbl_region set RegionID={0},RegionName='{1]',CreateDate='{2}' where ID = {2}", region.RegionID, region.RegionName, region.CreateDate,region.ID);
+                string query = string.Format("update tbl_area set AreaID={0},AreaPID={1},AreaName='{2}' where ID = {3}", area.AreaID, area.AreaPID, area.AreaName, area.ID);               
                 OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
                 command.ExecuteNonQuery();
 
@@ -840,11 +955,11 @@ namespace nms_database_lib
             }
         }
 
-        public bool Insert(Region region)
+        public bool Insert(Area area)
         {
             try
             {
-                string query = string.Format("insert into tbl_region (RegionID,RegionName,CreateDate) values ({0},'{1}','{2}')", region.RegionID,region.RegionName, region.CreateDate);
+                string query = string.Format("insert into tbl_area (AreaID,AreaPID,AreaName,CreateDate) values ({0},{1},'{2}','{3}')", area.AreaID, area.AreaPID, area.AreaName, area.CreateDate);
                 OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
                 command.ExecuteNonQuery();
 
@@ -857,11 +972,11 @@ namespace nms_database_lib
             }
         }
 
-        public bool Delete(Region region)
+        public bool Delete(Area area)
         {
             try
             {
-                string query = string.Format("delete from tbl_region where ID = {0}", region.ID);
+                string query = string.Format("delete from tbl_area where ID = {0}", area.ID);
                 OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
                 command.ExecuteNonQuery();
 
@@ -1625,6 +1740,413 @@ namespace nms_database_lib
     }
     #endregion
 
+    #region repeater create to database table define
+    class SiteMoidTable
+    {
+        private SiteMoid ParserObjectFromDataRow(DataRow row)
+        {
+            try
+            {
+                string strLine = string.Empty;
+
+                ushort moid = 0;
+                strLine = row[SiteMoidColumn.Moid.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    moid = Convert.ToUInt16(strLine, 16);
+                }
+
+                string enname = row[SiteMoidColumn.Enname.ToString()].ToString();
+                string cnname = row[SiteMoidColumn.Cnname.ToString()].ToString();
+                bool only = row[SiteMoidColumn.Readonly.ToString()].ToString() == "true" ? true : false;
+                string type = row[SiteMoidColumn.Type.ToString()].ToString();
+
+                int level = 0;
+                strLine = row[SiteMoidColumn.AlarmLevel.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    level = Convert.ToInt32(strLine);
+                }
+
+                int length = 0;
+                strLine = row[SiteMoidColumn.Length.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    length = Convert.ToInt32(strLine);
+                }
+
+                string unit = row[SiteMoidColumn.Unit.ToString()].ToString();
+                string system = row[SiteMoidColumn.SystemType.ToString()].ToString();
+                string localValue = row[SiteMoidColumn.LocalValue.ToString()].ToString();
+                string remoteValue = row[SiteMoidColumn.RemoteValue.ToString()].ToString();
+
+                return new SiteMoid(level, length, only, moid, unit, type, enname, cnname, system, localValue, remoteValue);
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return null;
+        }
+
+        public SiteMoid GetSiteMoidByMoid(string tableName, ushort moid)
+        {
+            SiteMoid obj = null;
+
+            try
+            {
+                DataTable table = new DataTable();
+                string query = string.Format("select * from {0} where Moid = {1}", tableName, moid);
+                OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
+                adapter.Fill(table);
+
+                foreach (DataRow row in table.Rows)
+                {
+                    obj = ParserObjectFromDataRow(row);
+                    break;
+                }
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return obj;
+        }
+
+        public List<SiteMoid> GetSiteMoidAll(string tableName)
+        {
+            List<SiteMoid> objList = new List<SiteMoid>();
+
+            try
+            {
+                DataTable table = new DataTable();
+                string query = string.Format("select * from {0} order by ID", tableName);
+                OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
+                adapter.Fill(table);
+
+                foreach (DataRow row in table.Rows)
+                {
+                    SiteMoid moid = ParserObjectFromDataRow(row);
+                    if (moid != null)
+                    {
+                        objList.Add(moid);
+                    }
+                }
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return objList;
+        }
+
+        public bool DeleteSiteMoidTableItem(string tableName, SiteMoid moid)
+        {
+            try
+            {
+                string query = string.Format("delete from {0} where ID = {0}", tableName, moid.ID);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool DeleteSiteMoidTableItemAll(string tableName)
+        {
+            try
+            {
+                string query = string.Format("delete from {0}", tableName);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool DeleteSiteMoidTable(string tableName)
+        {
+            try
+            {
+                string query = string.Format("drop table {0}", tableName);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool CreateSiteMoidTable(string tableName)
+        {
+            try
+            {
+                string query = string.Format("CREATE table {0} (Moid varchar(10) NOT NULL,Enname varchar(50) NOT NULL,Cnname varchar(50) NOT NULL,Readonly varchar(10) NOT NULL,Length varchar(10) NOT NULL,AlarmLevel varchar(10) NULL,Type varchar(50) NULL,Unit  varchar(20) NULL,SystemType varchar(20) NULL,LocalValue varchar(32) NULL,RemoteValue varchar(32) NULL)", tableName);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool InsertSiteMoidItem(string tableName, SiteMoid moid)
+        {
+            try
+            {
+                string query = string.Format("insert into {0} (Moid,Enname,Cnname,Readonly,Length,AlarmLevel,Type,Unit,SystemType,LocalValue,RemoteValue) values ('{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}')", tableName, moid.Oid, moid.Enname, moid.Cnname, moid.Readonly, moid.Length, moid.Level, moid.Type, moid.Unit, moid.System, moid.LocalValue, moid.RemoteValue);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool InsertSiteMoidTableItem(string tableName, List<SiteMoid> moidList)
+        {
+            try
+            {
+                foreach (SiteMoid element in moidList)
+                {
+                    if (element == null) continue;
+
+                    InsertSiteMoidItem(tableName, element);
+                }
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool UpdateSiteMoidTableItem(string tableName, SiteMoid moid)
+        {
+            try
+            {
+                string query = string.Format("update {0} set Enname='{1}',Cnname='{2}',Readonly='{3}',Length='{4}',AlarmLevel='{5}',Type='{6}',Unit='{7}',SystemType='{8}',LocalValue='{9}',RemoteValue='{10}' where Moid = {11}", tableName, moid.Enname, moid.Cnname, moid.Readonly == true ? "true" : "false", moid.Length, moid.Level, moid.Type, moid.Unit, moid.System, moid.LocalValue, moid.RemoteValue, moid.Oid);              
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+    }
+    #endregion
+
+    #region tree view table define   
+    class TreeTable
+    {
+        private Tree ParserObjectFromDataRow(DataRow row)
+        {
+            try
+            {
+                string strLine = string.Empty;
+
+                int id = 0;
+                strLine = row[TreeColumn.ID.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    id = Convert.ToInt32(strLine, 10);
+                }
+
+                int nodeType = 0;
+                strLine = row[TreeColumn.NodeType.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    nodeType = Convert.ToInt32(strLine, 10);
+                }
+
+                int nodeId = 0;
+                strLine = row[TreeColumn.NodeID.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    nodeId = Convert.ToInt32(strLine, 10);
+                }
+
+                int nodePid = 0;
+                strLine = row[TreeColumn.NodePID.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    nodePid = Convert.ToInt32(strLine, 10);
+                }
+
+                int order = 0;
+                strLine = row[TreeColumn.Order.ToString()].ToString();
+                if (string.IsNullOrEmpty(strLine) == false)
+                {
+                    order = Convert.ToInt32(strLine, 10);
+                }
+
+                string dispName = row[TreeColumn.DispName.ToString()].ToString();
+
+                // Tree(int id, int nodeType, int nodeId, int nodePid, int order, string dispName)
+                return new Tree(id, nodeType, nodeId, nodePid, order, dispName);
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return null;
+        }
+
+        public Tree GetTreeById(int id)
+        {
+            Tree obj = null;
+
+            try
+            {
+                DataTable table = new DataTable();
+                string query = string.Format("select * from tbl_tree where ID = {0}", id);
+                OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
+                adapter.Fill(table);
+
+                foreach (DataRow row in table.Rows)
+                {
+                    obj = ParserObjectFromDataRow(row);
+                    break;
+                }
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return obj;
+        }
+
+        public List<Tree> GetTreeAll()
+        {
+            List<Tree> objList = new List<Tree>();
+
+            try
+            {
+                DataTable table = new DataTable();
+                string query = string.Format("select * from tbl_tree order by ID");
+                OdbcDataAdapter adapter = new OdbcDataAdapter(query, RuntimeObjects.Connection);
+                adapter.Fill(table);
+
+                foreach (DataRow row in table.Rows)
+                {
+                    Tree tree = ParserObjectFromDataRow(row);
+                    if (tree != null)
+                    {
+                        objList.Add(tree);
+                    }
+                }
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+            }
+
+            return objList;
+        }
+
+        public bool DeleteTreeById(Tree tree)
+        {
+            try
+            {
+                string query = string.Format("delete from tbl_tree where ID = {0}", tree.ID);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool DeleteTreeAll()
+        {
+            try
+            {
+                string query = string.Format("delete from tbl_tree");
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+               
+        public bool InsertTreeElement(Tree tree)
+        {
+            try
+            {
+                string query = string.Format("insert into tbl_tree (NodeType, NodeID, DispName, NodePID, Order) values ({0},{1},'{2}',{3},{4})", tree.NodeType, tree.NodeID, tree.DispName, tree.NodePID, tree.Order);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+
+        public bool UpdateTreeElement(Tree tree)
+        {
+            try
+            {
+                string query = string.Format("update tbl_tree set NodeType={0},NodeID={1},DispName='{2}',NodePID={3},Order={4} where ID = {5}", tree.NodeType, tree.NodeID, tree.DispName, tree.NodePID, tree.Order, tree.ID);
+                OdbcCommand command = new OdbcCommand(query, RuntimeObjects.Connection);
+                command.ExecuteNonQuery();
+
+                return true;
+            }
+            catch (Exception r)
+            {
+                Console.WriteLine(r.Message);
+                return false;
+            }
+        }
+    }
+    #endregion
+    
     #region 全局数据库链接定义类
     // 运行时所用到的全局对象
     public class RuntimeObjects

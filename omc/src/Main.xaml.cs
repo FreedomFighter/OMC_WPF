@@ -322,5 +322,11 @@ namespace omc.src
             this.RepeaterParaDataGrid.RepeaterParamProcessForUI(sender, e);
         }
         #endregion
+
+        private void TopMenuComParameters_Click(object sender, RoutedEventArgs e)
+        {
+            ComParametersWin win = new ComParametersWin();
+            win.ShowDialog();
+        }
     }
 }

@@ -2073,7 +2073,7 @@ namespace nms_datatype_lib
             Add(new EnumObject("CommunicationMode", 0x04, "CDMA"));
             Add(new EnumObject("CommunicationMode", 0x05, "UDP"));
             Add(new EnumObject("EnableDisable", 0x00, "Disable"));
-            Add(new EnumObject("EnableDisable", 0x01, "Enbale"));
+            Add(new EnumObject("EnableDisable", 0x01, "Enable"));
             Add(new EnumObject("AlarmNormal", 0x00, "Normal"));
             Add(new EnumObject("AlarmNormal", 0x01, "Alarm"));
             Add(new EnumObject("OnOff", 0x00, "Off"));

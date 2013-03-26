@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--the style of OK button-->
+    <Style x:Key="ButtonOKStyle" TargetType="Button">
+        <Setter Property="Content">
+            <Setter.Value>
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="24" Height="24" Source="/nms_usercontrol_libs;component/images/button_ok_24.png"/>
+                    <TextBlock Text="OK" Margin="4"/>
+                </StackPanel>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+
+    <!--the style of Cancel button-->
+    <Style x:Key="ButtonCancelStyle" TargetType="Button">
+        <Setter Property="Content">
+            <Setter.Value>
+                <StackPanel Orientation="Horizontal">
+                    <Image Width="20" Height="20" Source="/nms_usercontrol_libs;component/images/button_cancel_24.png"/>
+                    <TextBlock Text="Cancel" Margin="4"/>
+                </StackPanel>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Width" Value="80" />
+        <Setter Property="Height" Value="30" />
+    </Style>
+
+
+
+</ResourceDictionary>

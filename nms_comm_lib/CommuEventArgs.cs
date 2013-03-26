@@ -12,7 +12,12 @@ namespace nms_comm_lib
     /// </summary>
     public enum CommunicateMode
     {
-        RS232 = 0x01, SMS, GPRS, CSD, UDP, TCP, SNMP, NONE,
+        RS232 = 0x01, SMS, GPRS, CSD, UDP, TCP, SNMP, TIMEOUT, NONE,
+    }
+
+    public enum CommunicateLogs
+    {
+        LOG_TX, LOG_RX,
     }
 
     public class CommuEventArgs
@@ -21,7 +26,14 @@ namespace nms_comm_lib
         public CommunicateMode Mode
         {
             get { return _mode; }
-            private set { _mode = value; }
+            set { _mode = value; }
+        }
+
+        private CommunicateLogs _logs;
+        public CommunicateLogs Logs
+        {
+            get { return _logs; }
+            set { _logs = value; }
         }
 
         private byte[] _data;
@@ -48,6 +60,12 @@ namespace nms_comm_lib
             get { return _phoneText; }
         }
 
+        private string _commName = string.Empty;
+        public string CommName
+        {
+            get { return _commName; }
+        }
+
         private uint _siteID = 0x000000;
         public uint SiteID
         {
@@ -67,6 +85,18 @@ namespace nms_comm_lib
         public CommuEventArgs(byte[] data, CommunicateMode mode)
         {
             Mode = mode;
+            _data = new byte[data.Length];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                _data[i] = data[i];
+            }
+        }
+
+        public CommuEventArgs(byte[] data, string commName, CommunicateMode mode)
+        {
+            Mode = mode;
+            _commName = commName;
             _data = new byte[data.Length];
 
             for (int i = 0; i < data.Length; i++)
@@ -135,6 +165,25 @@ namespace nms_comm_lib
         public CommuEventArgs(byte[] data, string phone)
         {
             _phoneText = phone;
+            Mode = CommunicateMode.SMS;
+
+            _data = new byte[data.Length];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                _data[i] = data[i];
+            }
+        }
+
+        /// <summary>
+        /// modem通信方式，此方式下只需要一个电话号码和要发送的数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="phone"></param>
+        public CommuEventArgs(byte[] data, string phone, string commName)
+        {
+            _phoneText = phone;
+            _commName = commName;
             Mode = CommunicateMode.SMS;
 
             _data = new byte[data.Length];
